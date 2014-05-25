@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.res.XModuleResources;
 import android.os.Build;
 import android.view.WindowManager;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -52,33 +53,37 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			final Class<?> hookClass = XposedHelpers.findClass(
 					"com.android.server.power.PowerManagerService", lpparam.classLoader);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
 		} catch (Throwable e) {
 			// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
 			// https://github.com/android/platform_frameworks_base/commit/9630704ed3b265f008a8f64ec60a33cf9dcd3345
 			final Class<?> hookClass = XposedHelpers.findClass(
 					"com.android.server.PowerManagerService", lpparam.classLoader);
-			XposedBridge.hookAllMethods(hookClass, "goToSleepLocked", sScreenOffHook);
-			XposedHelpers.findAndHookMethod(hookClass, "setPowerState", int.class, sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "setPowerState", sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (Old Package)");
 		}
 	}
 	
+	private final XC_MethodHook sInitHook = new XC_MethodHook() {
+		@Override
+		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
+			mContext = (Context) param.args[0];
+			mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+			installBroadcast();
+		}
+	};
+	
 	private final XC_MethodReplacement sScreenOffHook = new XC_MethodReplacement() {
 		@Override
 		protected Object replaceHookedMethod(final MethodHookParam param) throws Throwable {
-			final boolean isNotIcsTimeout = param.method.getName().equals("setPowerState")
-					&& ((Integer) param.args[0]) != 0;
-			
-			if (!mEnabled || mDontAnimate || 
-					(isNotIcsTimeout && Build.VERSION.SDK_INT <= 15)){
-				return Utils.callOriginal(param);
+			if (param.method.getName().equals("setPowerState")) {
+				if ((Integer) param.args[0] != 0) return null;
 			}
 			
-			if (mContext == null) {
-				mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-				mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-				installBroadcast();
+			if (!mEnabled || mDontAnimate) {
+				return Utils.callOriginal(param);
 			}
 			
 			ScreenOffAnim.Implementation anim = findAnimation(mAnimationIndex);
