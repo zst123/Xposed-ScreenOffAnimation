@@ -79,7 +79,8 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		@Override
 		protected Object replaceHookedMethod(final MethodHookParam param) throws Throwable {
 			if (param.method.getName().equals("setPowerState")) {
-				if ((Integer) param.args[0] != 0) return null;
+				if ((Integer) param.args[0] != 0)
+					return Utils.callOriginal(param);
 			}
 			
 			if (!mEnabled || mDontAnimate) {
