@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.res.XModuleResources;
 import android.os.Build;
 import android.view.WindowManager;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -52,6 +53,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			final Class<?> hookClass = XposedHelpers.findClass(
 					"com.android.server.power.PowerManagerService", lpparam.classLoader);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
 		} catch (Throwable e) {
 			// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
@@ -60,9 +62,19 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					"com.android.server.PowerManagerService", lpparam.classLoader);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepLocked", sScreenOffHook);
 			XposedHelpers.findAndHookMethod(hookClass, "setPowerState", int.class, sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (Old Package)");
 		}
 	}
+	
+	private final XC_MethodHook sInitHook = new XC_MethodHook() {
+		@Override
+		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
+			mContext = (Context) param.args[0];
+			mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+			installBroadcast();
+		}
+	};
 	
 	private final XC_MethodReplacement sScreenOffHook = new XC_MethodReplacement() {
 		@Override
@@ -75,11 +87,6 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				return Utils.callOriginal(param);
 			}
 			
-			if (mContext == null) {
-				mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-				mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-				installBroadcast();
-			}
 			
 			ScreenOffAnim.Implementation anim = findAnimation(mAnimationIndex);
 			if (anim != null) {
