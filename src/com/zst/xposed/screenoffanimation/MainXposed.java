@@ -60,8 +60,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			// https://github.com/android/platform_frameworks_base/commit/9630704ed3b265f008a8f64ec60a33cf9dcd3345
 			final Class<?> hookClass = XposedHelpers.findClass(
 					"com.android.server.PowerManagerService", lpparam.classLoader);
-			XposedBridge.hookAllMethods(hookClass, "goToSleepLocked", sScreenOffHook);
-			XposedHelpers.findAndHookMethod(hookClass, "setPowerState", int.class, sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "setPowerState", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (Old Package)");
 		}
@@ -79,14 +78,14 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	private final XC_MethodReplacement sScreenOffHook = new XC_MethodReplacement() {
 		@Override
 		protected Object replaceHookedMethod(final MethodHookParam param) throws Throwable {
-			final boolean isNotIcsTimeout = param.method.getName().equals("setPowerState")
-					&& ((Integer) param.args[0]) != 0;
-			
-			if (!mEnabled || mDontAnimate || 
-					(isNotIcsTimeout && Build.VERSION.SDK_INT <= 15)){
-				return Utils.callOriginal(param);
+			if (param.method.getName().equals("setPowerState")) {
+				// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
+				if ((Integer) param.args[0] != 0)
+					return Utils.callOriginal(param);
 			}
 			
+			if (!mEnabled || mDontAnimate)
+				return Utils.callOriginal(param);
 			
 			ScreenOffAnim.Implementation anim = findAnimation(mAnimationIndex);
 			if (anim != null) {
