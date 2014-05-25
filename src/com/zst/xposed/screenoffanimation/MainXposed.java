@@ -48,42 +48,20 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		
 		refreshSettings();
 		
-		if (Build.VERSION.SDK_INT <= 15) { // ICS and below
-			try {
-				final Class<?> hookClass = XposedHelpers.findClass(
-						"com.android.server.PowerManagerService", lpparam.classLoader);
-				XposedBridge.hookAllMethods(hookClass, "goToSleepLocked", sScreenOffHook);
-				XposedHelpers.findAndHookMethod(hookClass, "setPowerState", int.class, sScreenOffHook);
-			} catch (Throwable throwable) {
-				Utils.log("Error #1 in handleLoadPackage (ICS)",
-						throwable);
-			}
-		} else { // JB onwards
-			Class<?> hookClass;
-			try { // Android 4.2.2 onwards
-				hookClass = XposedHelpers.findClass(
-						"com.android.server.power.PowerManagerService", lpparam.classLoader);
-			} catch (Throwable e) { // Android 4.1 to 4.2.1
-				try {
-					hookClass = XposedHelpers.findClass("com.android.server.PowerManagerService",
-							lpparam.classLoader);
-				} catch (Throwable throwable) {
-					Utils.log("Error #2 in handleLoadPackage (JB/KK)",
-							e);
-					Utils.log("Error #3 in handleLoadPackage (JB)",
-							throwable);
-					return;
-				}
-			}
-			try {
-				XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
-			} catch (Throwable throwable) {
-				Utils.log("Error #1 in handleLoadPackage (JB)",
-						throwable);
-			}
+		try { // late Android 4.2.1 onwards (built after Aug 15, 2012)
+			final Class<?> hookClass = XposedHelpers.findClass(
+					"com.android.server.power.PowerManagerService", lpparam.classLoader);
+			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
+			Utils.log("Done hooks for PowerManagerService (New Package)");
+		} catch (Throwable e) {
+			// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
+			// https://github.com/android/platform_frameworks_base/commit/9630704ed3b265f008a8f64ec60a33cf9dcd3345
+			final Class<?> hookClass = XposedHelpers.findClass(
+					"com.android.server.PowerManagerService", lpparam.classLoader);
+			XposedBridge.hookAllMethods(hookClass, "goToSleepLocked", sScreenOffHook);
+			XposedHelpers.findAndHookMethod(hookClass, "setPowerState", int.class, sScreenOffHook);
+			Utils.log("Done hooks for PowerManagerService (Old Package)");
 		}
-		
-		Utils.log("Done hooks for PowerManagerService");
 	}
 	
 	private final XC_MethodReplacement sScreenOffHook = new XC_MethodReplacement() {
