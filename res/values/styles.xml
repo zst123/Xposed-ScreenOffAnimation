@@ -1,0 +1,53 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Main Theme -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:dropDownListViewStyle">@style/CustomDropDownListView</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_purpleholo</item>
+        <item name="android:buttonStyle">@style/ButtonPurple</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonPurple</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/selectable_listview</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/selectable_background_purpleholo</item>
+        <item name="android:seekBarStyle">@style/SeekBarPurple</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/purple_btn_check_holo_light</item>
+        <item name="android:actionBarStyle">@style/CustomActionBarStyle</item>
+    </style>
+
+    <!-- App Styles -->
+    <style name="CustomActionBarStyle" parent="android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:titleTextStyle">@style/CustomActionBarTitle</item>
+    </style>
+
+    <style name="CustomDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_purpleholo</item>
+    </style>
+
+    <style name="CustomActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/theme_color</item>
+    </style>
+
+    <!-- Widget Styles -->
+    <style name="ButtonPurple" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@drawable/purple_btn_default_holo_light</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ImageButtonPurple" parent="android:Widget.Holo.Light.ImageButton">
+        <item name="android:background">@drawable/purple_btn_default_holo_light</item>
+    </style>
+
+    <!-- (Reminder) No Style for Switch -->
+
+    <style name="SeekBarPurple" parent="android:Widget.Holo.Light.SeekBar">
+        <item name="android:progressDrawable">@drawable/purple_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/purple_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:thumb">@drawable/purple_scrubber_control_selector_holo_light</item>
+    </style>
+
+    <!-- Colors -->
+    <color name="theme_color">#FF662d91</color>
+    <color name="theme_color_translucent">#BB662d91</color>
+    <color name="warning_color">#ffFF4A4A</color>
+    <color name="white_translucent">#BBffffff</color>
+
+</resources>
