@@ -87,6 +87,18 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			if (!mEnabled || mDontAnimate)
 				return Utils.callOriginal(param);
 			
+			if (mContext == null) {
+				// If the context cannot be retrieved from the init method,
+				try {
+					mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+					mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+					installBroadcast();
+				} catch (Exception e){
+					Utils.log("Context cannot be retrieved (backup method failed) - " + e.toString());
+					e.printStackTrace();
+				}
+			}
+			
 			ScreenOffAnim.Implementation anim = findAnimation(mAnimationIndex);
 			if (anim != null) {
 				try {
