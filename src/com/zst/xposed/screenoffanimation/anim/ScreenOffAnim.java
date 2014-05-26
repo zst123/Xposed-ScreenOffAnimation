@@ -89,8 +89,8 @@ public abstract class ScreenOffAnim {
 				public void run() {
 					hide();
 				}
-			}, 100);
-			// Give the system enough time to turn off the screen (~100ms)
+			}, 500);
+			// Give the system enough time to turn off the screen
 		} else {
 			/* (This only happens on ICS/JB)
 			 * If user taps on the screen when the animation has just
@@ -114,8 +114,8 @@ public abstract class ScreenOffAnim {
 					Utils.logcat("(ScreenOffAnim) Reattempt Screen Off (Removed)");
 					hide();
 				}
-			}, 300);
-			// More delay is needed because we are calling through a binder
+			}, 750);
+			// More delay than above is needed because we are calling through a binder
 		}
 	}
 	
