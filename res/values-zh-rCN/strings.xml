@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">屏幕关闭动画</string>
+    <string name="app_info">为所有ROM自定义屏幕关闭动画 (开发by zst123)</string>
+    <string name="error_animating">"当前动画有一个错误。
+已在Xposed安装器中生成为日志。"</string>
+    <string name="menu_reset_settings_title">重置设置</string>
+    <string name="menu_reset_settings_dialog">重置所有设置为默认状态？</string>
+    <string name="xposed_disabled_title">模块未激活</string>
+    <string name="xposed_disabled_summary">"此模块无法正常运行。
+请确保此模块已在Xposed安装器中勾选并重启过设备。"</string>
+    <string name="setting_enable">启用</string>
+    <string name="setting_anim">动画</string>
+    <string name="setting_anim_button">选择动画</string>
+    <string name="setting_speed">速度</string>
+    <string name="setting_preview">预览</string>
+    <string name="setting_preview_button">预览动画</string>
+    <string name="anim_fade">淡化特效</string>
+    <string name="anim_crt">CRT特效（水平位置）</string>
+    <string name="anim_crt_vertical">CRT特效（垂直位置）</string>
+    <string name="anim_scale_down">缩进特效</string>
+    <string name="anim_tv_burn">电视断电特效</string>
+    <string name="anim_lgog">LG Optimus G特效</string>
+</resources>
