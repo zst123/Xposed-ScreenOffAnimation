@@ -93,4 +93,9 @@ public class Utils {
 	public static void logcat(String s) {
 		Log.d("zst123", Common.LOG_TAG + s);
 	}
+	
+	public static void logcat(String s, Throwable t) {
+		Log.d("zst123", Common.LOG_TAG + s);
+		t.printStackTrace();
+	}
 }

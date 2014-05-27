@@ -67,7 +67,7 @@ public class TouchConsumer {
 		try {
 			mWM.addView(mView, LAYOUT_PARAM);
 		} catch (Exception e) {
-			Utils.log("(TouchConsumer) Error adding view", e);
+			Utils.logcat("(TouchConsumer) Error adding view", e);
 		}
 		mHandler.postDelayed(sStopRunnable, 2000);
 	}
@@ -75,7 +75,7 @@ public class TouchConsumer {
 		try {
 			mWM.removeView(mView);
 		} catch (Exception e) {
-			Utils.log("(TouchConsumer) Error removing view", e);
+			Utils.logcat("(TouchConsumer) Error removing view", e);
 		}
 		mHandler.removeCallbacks(sStopRunnable);
 	}
