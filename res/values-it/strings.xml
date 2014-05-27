@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App -->
+    <string name="app_name">ScreenOffAnimation</string>
+    <string name="app_info">Animazione di spegnimento schermo personalizzata per tutte le ROM (zst123)</string>
+
+    <!-- Others -->
+    <string name="error_animating">Si è verificato un errore con l\'animazione selezionata.\nIl log è disponibile in Xposed Installer.</string>
+
+    <!-- Settings -->
+    <string name="menu_reset_settings_title">Resetta Impostazioni</string>
+    <string name="menu_reset_settings_dialog">Settare le impostazioni predefinite?</string>
+    <string name="xposed_disabled_title">Modulo Non Attivo</string>
+    <string name="xposed_disabled_summary">Il modulo non sembra attivo.\nAssicurati che sia selezionato in Xposed Installer e di aver riavviato il dispositivo</string>
+    <string name="setting_enable">Abilita</string>
+    <string name="setting_anim">Animazione</string>
+    <string name="setting_anim_button">Scegli Animazione</string>
+    <string name="setting_speed">Velocità</string>
+    <string name="setting_preview">Anteprima</string>
+    <string name="setting_preview_button">Anteprima Animazione</string>
+
+    <!-- Animations -->
+    <string name="anim_fade">Sfuma</string>
+    <string name="anim_crt">CRT (Orizzontale)</string>
+    <string name="anim_crt_vertical">CRT (Verticale)</string>
+    <string name="anim_scale_down">Rimpicciolisci</string>
+    <string name="anim_tv_burn">Spegnimento TV</string>
+    <string name="anim_lgog">LG Optimus G</string>
+    
+</resources>
