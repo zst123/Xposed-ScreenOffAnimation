@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import static android.view.WindowManager.LayoutParams.FIRST_SYSTEM_WINDOW;
 
@@ -104,6 +105,13 @@ public abstract class ScreenOffAnim {
 			Utils.callOriginal(mMethodParam);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+		if (mMethodParam != null && 
+				mMethodParam.method.getName().equals("goToSleepNoUpdateLocked")) {
+			XposedHelpers.callMethod(mMethodParam.thisObject, "updatePowerStateLocked");
+			// By the time the animation finishes, the system thinks the phone
+			// is already timed-out and sleeping. We must call the update method
 		}
 		
 		if (!mPM.isScreenOn() || mMethodParam == null) {

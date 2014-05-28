@@ -20,6 +20,26 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
 public class Utils {
+	
+	/**
+	 * Helper method to check if the ??NoUpdateLocked methods
+	 * are valid events. (API 16 and above)
+	 * @return
+	 */
+	public static boolean isValidSleepEvent(Object pms, long eventTime) {
+		long mLastSleepTime = XposedHelpers.getLongField(pms, "mLastSleepTime");
+		int mWakefulness = XposedHelpers.getIntField(pms, "mWakefulness");
+		final int WAKEFULNESS_ASLEEP = 0; // From sources
+		boolean mBootCompleted = XposedHelpers.getBooleanField(pms, "mBootCompleted");
+		boolean mSystemReady = XposedHelpers.getBooleanField(pms, "mSystemReady");
+		
+		if (eventTime < mLastSleepTime || mWakefulness == WAKEFULNESS_ASLEEP
+				|| !mBootCompleted || !mSystemReady) {
+			return false;
+		}
+		return true;
+	}
+	
 	public static void toast(Context ctx, String text) {
 		Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show();
 	}

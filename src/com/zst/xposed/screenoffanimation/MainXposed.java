@@ -53,6 +53,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			final Class<?> hookClass = XposedHelpers.findClass(
 					"com.android.server.power.PowerManagerService", lpparam.classLoader);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "goToSleepNoUpdateLocked", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
 		} catch (Throwable e) {
@@ -82,6 +83,13 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
 				if ((Integer) param.args[0] != 0)
 					return Utils.callOriginal(param);
+			} else if (param.method.getName().equals("goToSleepNoUpdateLocked")) {
+				// reason != GO_TO_SLEEP_REASON_TIMEOUT
+				if ((Integer) param.args[1] != 2)
+					return Utils.callOriginal(param);
+				
+				if (!Utils.isValidSleepEvent(param.thisObject, (Long) param.args[0]))
+					return false;
 			}
 			
 			if (!mEnabled || mDontAnimate)
@@ -113,7 +121,11 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				return Utils.callOriginal(param);
 			}
 			
-			return null;
+			if (param.method.getName().equals("goToSleepNoUpdateLocked")) {
+				return true;
+			} else {
+				return null;
+			}
 		}
 	};
 	
