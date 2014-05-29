@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App -->
+    <string name="app_name">ScreenOffAnimation</string>
+    <string name="app_info">Różne animacje blokady ekranu dla wszystkich ROMów (zst123)</string>
+
+    <!-- Others -->
+    <string name="error_animating">Wystąpił błąd w obcenej animacji. \nLog zapisano w Xposed Insallerze.</string>
+
+    <!-- Settings -->
+    <string name="menu_reset_settings_title">Zresetuj ustawienia</string>
+    <string name="menu_reset_settings_dialog">Przywrócić ustawienia domyślne?</string>
+    <string name="xposed_disabled_title">Moduł nieaktywny</string>
+    <string name="xposed_disabled_summary">Moduł nie jest uruchomiony.\nUpewnij się, że moduł jest aktywny w Xposed Installerze i że zresetowałeś urządzenie</string>
+    <string name="setting_enable">Włącz</string>
+    <string name="setting_anim">Animacja</string>
+    <string name="setting_anim_button">Wybierz animacje</string>
+    <string name="setting_speed">Prędkość animacji</string>
+    <string name="setting_preview">Podgląd</string>
+    <string name="setting_preview_button">Podgląd animacji</string>
+
+    <!-- Animations -->
+    <string name="anim_fade">Wygasanie</string>
+    <string name="anim_crt">CRT (Poziomo)</string>
+    <string name="anim_crt_vertical">CRT (Pionowo)</string>
+    <string name="anim_scale_down">Skalowanie w dół</string>
+    <string name="anim_tv_burn">Włączanie TV</string>
+    <string name="anim_lgog">LG Optimus G</string>
+    
+</resources>
