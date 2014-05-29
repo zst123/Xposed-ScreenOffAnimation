@@ -3,29 +3,29 @@
 
     <!-- App -->
     <string name="app_name">ScreenOffAnimation</string>
-    <string name="app_info">Custom Screen Off Animations for all ROMs (zst123)</string>
+    <string name="app_info">Różne animacje blokady ekranu dla wszystkich ROMów (zst123)</string>
 
     <!-- Others -->
-    <string name="error_animating">There was an error with the current animation.\nIt is logged in Xposed Installer.</string>
+    <string name="error_animating">Wystąpił błąd w obcenej animacji. \nLog zapisano w Xposed Insallerze.</string>
 
     <!-- Settings -->
-    <string name="menu_reset_settings_title">Reset Settings</string>
-    <string name="menu_reset_settings_dialog">Reset all the settings to default?</string>
-    <string name="xposed_disabled_title">Module Inactive</string>
-    <string name="xposed_disabled_summary">This module does not appear to be running.\nEnsure that this module is checked in Xposed Installer and you have rebooted the device</string>
-    <string name="setting_enable">Enable</string>
-    <string name="setting_anim">Animation</string>
-    <string name="setting_anim_button">Select Animation</string>
-    <string name="setting_speed">Speed</string>
-    <string name="setting_preview">Preview</string>
-    <string name="setting_preview_button">Preview Animation</string>
+    <string name="menu_reset_settings_title">Zresetuj ustawienia</string>
+    <string name="menu_reset_settings_dialog">Przywrócić ustawienia domyślne?</string>
+    <string name="xposed_disabled_title">Moduł nieaktywny</string>
+    <string name="xposed_disabled_summary">Moduł nie jest uruchomiony.\nUpewnij się, że moduł jest aktywny w Xposed Installerze i że zresetowałeś urządzenie</string>
+    <string name="setting_enable">Włącz</string>
+    <string name="setting_anim">Animacja</string>
+    <string name="setting_anim_button">Wybierz animacje</string>
+    <string name="setting_speed">Prędkość animacji</string>
+    <string name="setting_preview">Podgląd</string>
+    <string name="setting_preview_button">Podgląd animacji</string>
 
     <!-- Animations -->
-    <string name="anim_fade">Fade</string>
-    <string name="anim_crt">CRT (Horizontal)</string>
-    <string name="anim_crt_vertical">CRT (Vertical)</string>
-    <string name="anim_scale_down">Scale Down</string>
-    <string name="anim_tv_burn">TV Burn In</string>
+    <string name="anim_fade">Wygasanie</string>
+    <string name="anim_crt">CRT (Poziomo)</string>
+    <string name="anim_crt_vertical">CRT (Pionowo)</string>
+    <string name="anim_scale_down">Skalowanie w dół</string>
+    <string name="anim_tv_burn">Włączanie TV</string>
     <string name="anim_lgog">LG Optimus G</string>
     
 </resources>
