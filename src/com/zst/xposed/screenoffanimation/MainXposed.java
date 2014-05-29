@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.XModuleResources;
-import android.os.Build;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -55,6 +54,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepNoUpdateLocked", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
+			hookDisableNativeScreenOffAnim(lpparam);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
 		} catch (Throwable e) {
 			// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
@@ -133,6 +133,18 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		final Class<?> cls = XposedHelpers.findClass(MainActivity.class.getName(), lpp.classLoader);
 		XposedBridge.hookAllMethods(cls, "isXposedRunning",
 				XC_MethodReplacement.returnConstant(true));
+	}
+	
+	private void hookDisableNativeScreenOffAnim(LoadPackageParam lpp) {
+		try {
+			final Class<?> cls = XposedHelpers.findClass("com.android.server.power.ElectronBeam",
+					lpp.classLoader);
+			XposedHelpers.findAndHookMethod(cls, "prepare", int.class,
+					XC_MethodReplacement.returnConstant(false));
+		} catch (Exception e) {
+			Utils.log("Attempt to remove native screen off animation failed - " + e.toString());
+			// MethodNotFoundException
+		}
 	}
 	
 	/**
