@@ -7,8 +7,12 @@ import com.zst.xposed.screenoffanimation.helpers.Utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
@@ -22,13 +26,29 @@ public class CRT extends ScreenOffAnim.Implementation {
 		final ImageView view = new ImageView(ctx);
 		view.setScaleType(ScaleType.FIT_XY);
 		view.setImageBitmap(ScreenshotUtil.takeScreenshot(ctx));
+		view.setBackgroundColor(Color.WHITE);
 		
-		final Animation anim = loadCRTAnimation(ctx, res);
+		final AlphaAnimation alpha = new AlphaAnimation(1.25f, 0) {
+			@Override
+			@SuppressWarnings("deprecation")
+			protected void applyTransformation(float interpolatedTime, Transformation t) {
+				final float fromAlpha = 1;
+				float newAlpha = fromAlpha + ((0 - fromAlpha) * interpolatedTime);
+				if (newAlpha > 1)
+					newAlpha = 1;
+				if (Build.VERSION.SDK_INT >= 16) {
+					view.setImageAlpha((int) (newAlpha * 255));
+				} else {
+					view.setAlpha((int) (newAlpha * 255));
+				}
+			}
+		};		
+		final AnimationSet anim = new AnimationSet(false);
+		anim.addAnimation(loadCRTAnimation(ctx, res));
+		anim.addAnimation(alpha);
 		anim.setDuration(anim_speed);
-		if (anim_speed > 350) {
-			// Some weird bug causes the start offset of the
-			// second animation in the set to be too fast..
-			final float scale = (anim_speed) / 200;
+		final float scale = (anim_speed) / 200;
+		if (scale >= 1) {
 			anim.scaleCurrentDuration(scale);
 		}
 		anim.setFillAfter(true);
