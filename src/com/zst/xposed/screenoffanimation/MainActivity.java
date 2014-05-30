@@ -20,6 +20,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	final static int SPEED_INTERVAL = 10;
+	final static int SPEED_MIN = 100;
+	final static int SPEED_MAX = 2000;
+	
 	final static int MENU_RESET_SETTINGS = 0x100;
 	
 	private SharedPreferences mPref;
@@ -72,12 +76,12 @@ public class MainActivity extends Activity {
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				if (!fromUser) return;
 				
-				int adjusted_progress = progress + 200;
+				int adjusted_progress = (progress * SPEED_INTERVAL) + SPEED_MIN;
 				mPref.edit().putInt(Pref.Key.SPEED, adjusted_progress).commit();
 				mTextSpeed.setText(adjusted_progress + " ms");
 			}
 		});
-		mSeekSpeed.setMax(2000 - 200);
+		mSeekSpeed.setMax((SPEED_MAX - SPEED_MIN) / SPEED_INTERVAL);
 		
 		findViewById(R.id.select_anim_button).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -120,7 +124,7 @@ public class MainActivity extends Activity {
 	private void loadPref() {
 		final boolean enabled = mPref.getBoolean(Pref.Key.ENABLED, Pref.Def.ENABLED);
 		final int speed = mPref.getInt(Pref.Key.SPEED, Pref.Def.SPEED);
-		final int adjusted_speed = speed - 200;
+		final int adjusted_speed = (speed - SPEED_MIN) / SPEED_INTERVAL;
 		
 		mCurrentAnim = mPref.getInt(Pref.Key.EFFECT, Pref.Def.EFFECT);
 
