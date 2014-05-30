@@ -1,6 +1,7 @@
 package com.zst.xposed.screenoffanimation.anim;
 
 import com.zst.xposed.screenoffanimation.MainXposed;
+import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.helpers.TouchConsumer;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
 
@@ -170,13 +171,19 @@ public abstract class ScreenOffAnim {
 			new Handler(ctx.getMainLooper()).post(new Runnable() {
 				@Override
 				public void run() {
-					animate(ctx, wm, param, res);
+					try {
+						animate(ctx, wm, param, res);
+					} catch (Exception e) {
+						// So we don't crash system.
+						Utils.toast(ctx, res.getString(R.string.error_animating));
+						e.printStackTrace();
+					}
 				}
 			});
 		}
 		
 		public abstract void animate(final Context ctx, final WindowManager wm,
-				final MethodHookParam param, final Resources res);
+				final MethodHookParam param, final Resources res) throws Exception;
 		
 		/**
 		 * Helper method to finish the animation after a delay
