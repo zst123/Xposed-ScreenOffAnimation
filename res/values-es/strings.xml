@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App -->
+    <string name="app_name">ScreenOffAnimation</string>
+    <string name="app_info">Animaciones personalizadas para bloqueo de pantalla para todas las ROMs (zst123)</string>
+
+    <!-- Others -->
+    <string name="error_animating">Hubo un error con la animación actual.\nSe registró en Xposed Installer.</string>
+
+    <!-- Settings -->
+    <string name="menu_reset_settings_title">Restablecer configuración</string>
+    <string name="menu_reset_settings_dialog">Restablecer todos los ajustes a los valores predeterminados?</string>
+    <string name="xposed_disabled_title">Módulo Inactivo</string>
+    <string name="xposed_disabled_summary">Este módulo no parece estar funcionando.\nAsegúrese de que este módulo se registró en Xposed Installer y de haber reiniciado el dispositivo</string>
+    <string name="setting_enable">Habilitar</string>
+    <string name="setting_anim">Animación</string>
+    <string name="setting_anim_button">Seleccione Animación</string>
+    <string name="setting_speed">Velocidad</string>
+    <string name="setting_preview">Vista Previa</string>
+    <string name="setting_preview_button">Vista previa de animación</string>
+
+    <!-- Animations -->
+    <string name="anim_fade">Fade</string>
+    <string name="anim_crt">CRT (Horizontal)</string>
+    <string name="anim_crt_vertical">CRT (Vertical)</string>
+    <string name="anim_scale_down">Scale Down</string>
+    <string name="anim_tv_burn">TV Burn In</string>
+    <string name="anim_lgog">LG Optimus G</string>
+    
+</resources>
