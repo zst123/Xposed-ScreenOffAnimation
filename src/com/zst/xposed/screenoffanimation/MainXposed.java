@@ -193,6 +193,8 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			return new TVBurnIn();
 		case Common.Anim.LG_OPTIMUS_G:
 			return new LGOptimusG();
+		case Common.Anim.FADE_TILES:
+			return new FadeTiles();
 		default:
 			return null;
 		}

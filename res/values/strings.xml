@@ -27,5 +27,6 @@
     <string name="anim_scale_down">Scale Down</string>
     <string name="anim_tv_burn">TV Burn In</string>
     <string name="anim_lgog">LG Optimus G</string>
+    <string name="anim_fadetiles">Fade Tiles</string>
     
 </resources>
