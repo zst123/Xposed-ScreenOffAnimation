@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -25,6 +26,7 @@ public class ScaleDown extends ScreenOffAnim.Implementation {
 		view.setImageBitmap(ScreenshotUtil.takeScreenshot(ctx));
 		
 		final Animation anim = Utils.loadAnimation(ctx, res, R.anim.scale_down);
+		anim.setInterpolator(new AccelerateInterpolator());
 		anim.setDuration(anim_speed);
 		anim.setFillAfter(true);
 		anim.setStartOffset(100);
