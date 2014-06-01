@@ -11,7 +11,7 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
 public class FadeOut extends ScreenOffAnim.Implementation {
 	@Override
-	public void animate(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
+	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		final View outline = new View(ctx);
 		outline.setBackgroundColor(Color.BLACK);
 		
@@ -20,7 +20,7 @@ public class FadeOut extends ScreenOffAnim.Implementation {
 		
 		final ScreenOffAnim holder = new ScreenOffAnim(ctx, wm, param) {
 			@Override
-			public void animateView() {
+			public void animateScreenOffView() {
 				outline.startAnimation(fadeIn);
 			}
 		};
@@ -35,6 +35,6 @@ public class FadeOut extends ScreenOffAnim.Implementation {
 			@Override
 			public void onAnimationRepeat(Animation a) {}
 		});
-		holder.show(outline);
+		holder.showScreenOffView(outline);
 	}
 }

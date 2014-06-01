@@ -65,7 +65,7 @@ public abstract class ScreenOffAnim {
 		 */
 	}
 	
-	public void show(View animating_view) {
+	public void showScreenOffView(View animating_view) {
 		mConsumer.start();
 		
 		mFrame.removeAllViews();
@@ -93,15 +93,15 @@ public abstract class ScreenOffAnim {
 			} else {
 				mWM.addView(mFrame, LAYOUT_PARAM);
 			}
-			animateView();
+			animateScreenOffView();
 		} catch (Exception e) {
 			Utils.log("(ScreenOffAnim) Error adding view to WindowManager", e);
 		}
 	}
 	
-	public abstract void animateView();
+	public abstract void animateScreenOffView();
 	
-	public void finishAnimation() {
+	public void finishScreenOffAnim() {
 		try {
 			Utils.callOriginal(mMethodParam);
 		} catch (Exception e) {
@@ -119,7 +119,7 @@ public abstract class ScreenOffAnim {
 			new Handler(mContext.getMainLooper()).postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					hide();
+					hideScreenOffView();
 				}
 			}, 500);
 			// Give the system enough time to turn off the screen
@@ -144,14 +144,14 @@ public abstract class ScreenOffAnim {
 				public void run() {
 					MainXposed.mDontAnimate = false;
 					Utils.logcat("(ScreenOffAnim) Reattempt Screen Off (Removed)");
-					hide();
+					hideScreenOffView();
 				}
 			}, 750);
 			// More delay than above is needed because we are calling through a binder
 		}
 	}
 	
-	private void hide() {
+	private void hideScreenOffView() {
 		try {
 			mWM.removeView(mFrame);
 		} catch (Exception e) {
@@ -166,23 +166,25 @@ public abstract class ScreenOffAnim {
 	 */
 	public static abstract class Implementation {
 		public int anim_speed;
-		public void animateOnHandler(final Context ctx, final WindowManager wm,
+		public void animateScreenOffWithHandler(final Context ctx, final WindowManager wm,
 				final MethodHookParam param, final Resources res) {
-			new Handler(ctx.getMainLooper()).post(new Runnable() {
+			final Handler handler = new Handler(ctx.getMainLooper());
+			final Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
 					try {
-						animate(ctx, wm, param, res);
+						animateScreenOff(ctx, wm, param, res);
 					} catch (Exception e) {
 						// So we don't crash system.
 						Utils.toast(ctx, res.getString(R.string.error_animating));
-						e.printStackTrace();
+						Utils.log("Error in animateScreenOffWithHandler: " + getClass().getName(), e);
 					}
 				}
-			});
+			};
+			handler.post(runnable);
 		}
 		
-		public abstract void animate(final Context ctx, final WindowManager wm,
+		public abstract void animateScreenOff(final Context ctx, final WindowManager wm,
 				final MethodHookParam param, final Resources res) throws Exception;
 		
 		/**
@@ -193,7 +195,7 @@ public abstract class ScreenOffAnim {
 			new Handler(ctx.getMainLooper()).postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					holder.finishAnimation();
+					holder.finishScreenOffAnim();
 				}
 			}, delay);
 		}

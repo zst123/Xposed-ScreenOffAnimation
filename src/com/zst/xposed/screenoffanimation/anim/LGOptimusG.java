@@ -24,7 +24,7 @@ public class LGOptimusG extends ScreenOffAnim.Implementation {
 	 */
 	Runnable mFinishAnimRunnable;
 	@Override
-	public void animate(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
+	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		final Bitmap screenshot = ScreenshotUtil.takeScreenshot(ctx);
 		// FIXME find width and height without using screenshot
 		
@@ -43,7 +43,7 @@ public class LGOptimusG extends ScreenOffAnim.Implementation {
 		};
 		final ScreenOffAnim holder = new ScreenOffAnim(ctx, wm, param) {
 			@Override
-			public void animateView() {
+			public void animateScreenOffView() {
 				view.invalidate();
 			}
 		};
@@ -51,11 +51,11 @@ public class LGOptimusG extends ScreenOffAnim.Implementation {
 		mFinishAnimRunnable = new Runnable() {
 			@Override
 			public void run() {
-				holder.finishAnimation();
+				holder.finishScreenOffAnim();
 			}
 		};
 		
-		holder.show(view);
+		holder.showScreenOffView(view);
 	}
 	
 	private abstract class InverseCircleView extends View {
