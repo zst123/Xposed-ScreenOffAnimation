@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 
+    <!-- App -->
+    <string name="app_name">ScreenOffAnimation</string>
+    <string name="app_info">Benutzerdefinierte Screen Off Animationen für alle ROMs ab ICS. (zst123)</string>
+ 
+    <!-- Others -->
+    <string name="error_animating">Fehler bei der aktuellen Animation.\nXposed Log wurde erstellt.</string>
+ 
+    <!-- Settings -->
+    <string name="menu_reset_settings_title">Alles zurücksetzen</string>
+    <string name="menu_reset_settings_dialog">Wirklich alle Einstellungen auf Standard zurücksetzen?</string>
+    <string name="xposed_disabled_title">Das Modul ist nicht aktiv</string>
+    <string name="xposed_disabled_summary">Das Modul läuft zur Zeit nicht.\nGehe sicher, dass du das Modul im Xposed Installer aktiviert und dein Gerät neugestartet hast.</string>
+    <string name="setting_enable">Aktivieren</string>
+    <string name="setting_anim">Animation</string>
+    <string name="setting_anim_button">Animation auswählen</string>
+    <string name="setting_speed">Geschwindigkeit</string>
+    <string name="setting_preview">Vorschau</string>
+    <string name="setting_preview_button">Zeige Vorschau</string>
+ 
+    <!-- Animations -->
+    <string name="anim_fade">Verblassen</string>
+    <string name="anim_crt">CRT (Horizontal)</string>
+    <string name="anim_crt_vertical">CRT (Vertikal)</string>
+    <string name="anim_scale_down">Runterskalieren</string>
+    <string name="anim_tv_burn">TV "Einbrennen"</string>
+    <string name="anim_lgog">LG Optimus G</string>
+    <string name="anim_fadetiles">Verblassende Kacheln</string>
+    
+</resources>
