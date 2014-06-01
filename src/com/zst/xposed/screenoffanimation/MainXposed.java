@@ -9,9 +9,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.content.res.XModuleResources;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
@@ -53,6 +55,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepNoUpdateLocked", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
+			XposedBridge.hookAllMethods(hookClass, "wakeUpNoUpdateLocked", sScreenWakeHook);
 			hookDisableNativeScreenOffAnim(lpparam);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
 		} catch (Throwable e) {
@@ -124,6 +127,39 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				return true;
 			} else {
 				return null;
+			}
+		}
+	};
+	
+	private final XC_MethodHook sScreenWakeHook = new XC_MethodHook() {
+		@Override
+		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
+			if ((Boolean)param.getResult() == false) return;
+			Utils.logcat("Wake - 1");
+
+			final AnimImplementation imp = new AnimImplementation() {
+				@Override public void animateScreenOff(Context ctx, WindowManager wm,
+						MethodHookParam param, Resources res) throws Exception {}
+			};
+			Utils.logcat("Wake - Created object");
+			try {
+				imp.anim_speed = mScreenOffAnimSpeed;
+				imp.prepareScreenOnWithHandler(mContext, mWm, sModRes);
+				Utils.logcat("Wake - Done object prepare");
+				mContext.registerReceiver(new BroadcastReceiver() {
+
+					@Override
+					public void onReceive(Context context, Intent intent) {
+						Utils.logcat("Wake - On Receive 1");
+						imp.animateScreenOnWithHandler(mContext, sModRes);
+						Utils.logcat("Wake - On Receive 2");
+						context.unregisterReceiver(this);
+					}
+					
+				}, new IntentFilter(Intent.ACTION_SCREEN_ON));
+			} catch (Exception e) {
+				// So we don't crash system.
+				Utils.toast(mContext, sModRes.getString(R.string.error_animating));
 			}
 		}
 	};
