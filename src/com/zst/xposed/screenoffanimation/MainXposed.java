@@ -154,6 +154,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		filter.addAction(Common.BROADCAST_REFRESH_SETTINGS);
 		filter.addAction(Common.BROADCAST_TEST_OFF_ANIMATION);
 		filter.addAction(Common.BROADCAST_TEST_ON_ANIMATION);
+		filter.addAction(Intent.ACTION_SCREEN_ON);
 		
 		mContext.registerReceiver(new BroadcastReceiver() {
 			@Override
@@ -173,6 +174,8 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					}
 				} else if (i.getAction().equals(Common.BROADCAST_TEST_ON_ANIMATION)) {
 					//TODO screen on animation
+				} else if (i.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+					Utils.logcat("SCREEN ON");
 				} else if (i.getAction().equals(Common.BROADCAST_REFRESH_SETTINGS)) {
 					refreshSettings();
 				}

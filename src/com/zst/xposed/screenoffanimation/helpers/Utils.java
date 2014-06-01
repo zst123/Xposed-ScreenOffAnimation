@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -35,6 +36,25 @@ public class Utils {
 		
 		if (eventTime < mLastSleepTime || mWakefulness == WAKEFULNESS_ASLEEP
 				|| !mBootCompleted || !mSystemReady) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Although S View Cover turns on the screen in a small
+	 * window, the phone is still tricked into thinking it
+	 * is sleeping. Thus, we can detect the state of the
+	 * cover without hooking complicated methods.
+	 * 
+	 * This is also useful for other situations such as
+	 * not playing the animation when the phone is sleeping
+	 */
+	public static boolean isSamsungSViewCoverClosed() {
+		long first = SystemClock.uptimeMillis();
+		SystemClock.sleep(15);
+		long second = SystemClock.uptimeMillis();
+		if (second - first > 14) {
 			return false;
 		}
 		return true;

@@ -32,6 +32,15 @@ public abstract class AnimImplementation {
 			}
 		};
 		handler.post(runnable);
+		if (Utils.isSamsungSViewCoverClosed() && false) {
+			handler.removeCallbacks(runnable);
+			try {
+				Utils.callOriginal(param);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// Handlers are not executed when phone is sleeping.
+		}
 	}
 	
 	public abstract void animateScreenOff(final Context ctx, final WindowManager wm,
