@@ -6,7 +6,8 @@ public class Common {
 	// Main
 	public static final String PACKAGE_THIS = Common.class.getPackage().getName();
 	public final static String BROADCAST_REFRESH_SETTINGS = PACKAGE_THIS + ".REFRESH_SETTINGS";
-	public final static String BROADCAST_TEST_ANIMATION = PACKAGE_THIS + ".TEST_ANIMATION";
+	public final static String BROADCAST_TEST_OFF_ANIMATION = PACKAGE_THIS + ".TEST_OFF_ANIMATION";
+	public final static String BROADCAST_TEST_ON_ANIMATION = PACKAGE_THIS + ".TEST_ON_ANIMATION";
 	public final static String EXTRA_TEST_ANIMATION = "animation";
 	
 	// Animation Numbers
@@ -27,16 +28,24 @@ public class Common {
 		
 		// Preference Keys
 		public static class Key {
-			public final static String ENABLED = "anim_enabled";
-			public final static String EFFECT = "anim_effect";
-			public final static String SPEED = "anim_speed";
+			public final static String OFF_ENABLED = "anim_enabled";
+			public final static String OFF_EFFECT = "anim_effect";
+			public final static String OFF_SPEED = "anim_speed";
+			
+			public final static String ON_ENABLED = "wake_enabled";
+			public final static String ON_EFFECT = "wake_effect";
+			public final static String ON_SPEED = "wake_speed";
 		}
 		
 		// Preference Default Values
 		public static class Def {
-			public final static boolean ENABLED = false;
-			public final static int EFFECT = Anim.FADE;
-			public final static int SPEED = 300;
+			public final static boolean OFF_ENABLED = false;
+			public final static int OFF_EFFECT = Anim.FADE;
+			public final static int OFF_SPEED = 300;
+			
+			public final static boolean ON_ENABLED = false;
+			public final static int ON_EFFECT = Anim.FADE;
+			public final static int ON_SPEED = 300;
 		}
 	}
 	

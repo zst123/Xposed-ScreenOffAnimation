@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 		mSwitchEnabled.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				mPref.edit().putBoolean(Pref.Key.ENABLED, isChecked).commit();
+				mPref.edit().putBoolean(Pref.Key.OFF_ENABLED, isChecked).commit();
 				updateSettings();
 			}
 		});
@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 				if (!fromUser) return;
 				
 				int adjusted_progress = (progress * SPEED_INTERVAL) + SPEED_MIN;
-				mPref.edit().putInt(Pref.Key.SPEED, adjusted_progress).commit();
+				mPref.edit().putInt(Pref.Key.OFF_SPEED, adjusted_progress).commit();
 				mTextSpeed.setText(adjusted_progress + " ms");
 			}
 		});
@@ -88,10 +88,10 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				final AlertDialog dialog = new
 						  AlertDialog.Builder(MainActivity.this).create();
-				dialog.setView(new EffectsListView(MainActivity.this, mCurrentAnim) {
+				dialog.setView(new EffectsListView(MainActivity.this, mCurrentAnim, false) {
 					@Override
 					public void onSelectEffect(int animId) {
-						mPref.edit().putInt(Pref.Key.EFFECT, animId).commit();
+						mPref.edit().putInt(Pref.Key.OFF_EFFECT, animId).commit();
 						dialog.dismiss();
 						updateSettings();
 					}
@@ -111,7 +111,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void previewEffect() {
-		Intent i = new Intent(Common.BROADCAST_TEST_ANIMATION);
+		Intent i = new Intent(Common.BROADCAST_TEST_OFF_ANIMATION);
 		i.putExtra(Common.EXTRA_TEST_ANIMATION, mCurrentAnim);
 		sendBroadcast(i);
 	}
@@ -122,11 +122,11 @@ public class MainActivity extends Activity {
 	}
 	
 	private void loadPref() {
-		final boolean enabled = mPref.getBoolean(Pref.Key.ENABLED, Pref.Def.ENABLED);
-		final int speed = mPref.getInt(Pref.Key.SPEED, Pref.Def.SPEED);
+		final boolean enabled = mPref.getBoolean(Pref.Key.OFF_ENABLED, Pref.Def.OFF_ENABLED);
+		final int speed = mPref.getInt(Pref.Key.OFF_SPEED, Pref.Def.OFF_SPEED);
 		final int adjusted_speed = (speed - SPEED_MIN) / SPEED_INTERVAL;
 		
-		mCurrentAnim = mPref.getInt(Pref.Key.EFFECT, Pref.Def.EFFECT);
+		mCurrentAnim = mPref.getInt(Pref.Key.OFF_EFFECT, Pref.Def.OFF_EFFECT);
 
 		mSwitchEnabled.setChecked(enabled);
 		mSeekSpeed.setProgress(adjusted_speed);

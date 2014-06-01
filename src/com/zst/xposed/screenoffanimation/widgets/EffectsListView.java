@@ -17,10 +17,12 @@ import android.widget.TextView;
 
 public abstract class EffectsListView extends ListView {
 	final int mCurrentAnimId;
+	final boolean mUseScreenOnAnim;
 	
-	public EffectsListView(Context context, int old_anim_id) {
+	public EffectsListView(Context context, int old_anim_id, boolean screen_on_anim) {
 		super(context);
 		mCurrentAnimId = old_anim_id;
+		mUseScreenOnAnim = screen_on_anim;
 		final EffectsAdapter adapter = new EffectsAdapter(context);
 		adapter.add(new Effect(context, R.string.anim_fade, Common.Anim.FADE));
 		adapter.add(new Effect(context, R.string.anim_crt, Common.Anim.CRT));
@@ -34,7 +36,8 @@ public abstract class EffectsListView extends ListView {
 	public abstract void onSelectEffect(int animId);
 	
 	private void previewEffect(int effect_id) {
-		Intent i = new Intent(Common.BROADCAST_TEST_ANIMATION);
+		Intent i = new Intent(mUseScreenOnAnim ?
+				Common.BROADCAST_TEST_ON_ANIMATION : Common.BROADCAST_TEST_OFF_ANIMATION);
 		i.putExtra(Common.EXTRA_TEST_ANIMATION, effect_id);
 		getContext().sendBroadcast(i);
 	}

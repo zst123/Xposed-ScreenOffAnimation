@@ -28,9 +28,9 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	static Context mContext;
 	static WindowManager mWm;
 	
-	static boolean mEnabled = Common.Pref.Def.ENABLED;
-	static int mAnimationIndex = Common.Pref.Def.EFFECT;
-	static int mAnimationSpeed = Common.Pref.Def.SPEED;
+	static boolean mScreenOffEnabled = Common.Pref.Def.OFF_ENABLED;
+	static int mScreenOffAnimIndex = Common.Pref.Def.OFF_EFFECT;
+	static int mScreenOffAnimSpeed = Common.Pref.Def.OFF_SPEED;
 	
 	@Override
 	public void initZygote(StartupParam startupParam) throws Throwable {
@@ -92,7 +92,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					return false;
 			}
 			
-			if (!mEnabled || mDontAnimate)
+			if (!mScreenOffEnabled || mDontAnimate)
 				return Utils.callOriginal(param);
 			
 			if (mContext == null) {
@@ -107,10 +107,10 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				}
 			}
 			
-			AnimImplementation anim = findAnimation(mAnimationIndex);
+			AnimImplementation anim = findAnimation(mScreenOffAnimIndex);
 			if (anim != null) {
 				try {
-					anim.anim_speed = mAnimationSpeed;
+					anim.anim_speed = mScreenOffAnimSpeed;
 					anim.animateScreenOffWithHandler(mContext, mWm, param, sModRes);
 				} catch (Exception e) {
 					// So we don't crash system.
@@ -153,24 +153,27 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	private void installBroadcast() {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Common.BROADCAST_REFRESH_SETTINGS);
-		filter.addAction(Common.BROADCAST_TEST_ANIMATION);
+		filter.addAction(Common.BROADCAST_TEST_OFF_ANIMATION);
+		filter.addAction(Common.BROADCAST_TEST_ON_ANIMATION);
 		
 		mContext.registerReceiver(new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context c, Intent i) {
-				if (i.getAction().equals(Common.BROADCAST_TEST_ANIMATION)) {
+				if (i.getAction().equals(Common.BROADCAST_TEST_OFF_ANIMATION)) {
 					final int anim_id = i.getIntExtra(Common.EXTRA_TEST_ANIMATION,
-							Common.Pref.Def.EFFECT);
+							Common.Pref.Def.OFF_EFFECT);
 					AnimImplementation anim = findAnimation(anim_id);
 					if (anim != null) {
 						try {
-							anim.anim_speed = mAnimationSpeed;
+							anim.anim_speed = mScreenOffAnimSpeed;
 							anim.animateScreenOffWithHandler(mContext, mWm, null, sModRes);
 						} catch (Exception e) {
 							// So we don't crash system.
 							Utils.toast(mContext, sModRes.getString(R.string.error_animating));
 						}
 					}
+				} else if (i.getAction().equals(Common.BROADCAST_TEST_ON_ANIMATION)) {
+					//TODO screen on animation
 				} else if (i.getAction().equals(Common.BROADCAST_REFRESH_SETTINGS)) {
 					refreshSettings();
 				}
@@ -203,8 +206,8 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	private void refreshSettings() {
 		sPref.reload();
 		
-		mEnabled = sPref.getBoolean(Common.Pref.Key.ENABLED, Common.Pref.Def.ENABLED);
-		mAnimationIndex = sPref.getInt(Common.Pref.Key.EFFECT, Common.Pref.Def.EFFECT);
-		mAnimationSpeed = sPref.getInt(Common.Pref.Key.SPEED, Common.Pref.Def.SPEED);
+		mScreenOffEnabled = sPref.getBoolean(Common.Pref.Key.OFF_ENABLED, Common.Pref.Def.OFF_ENABLED);
+		mScreenOffAnimIndex = sPref.getInt(Common.Pref.Key.OFF_EFFECT, Common.Pref.Def.OFF_EFFECT);
+		mScreenOffAnimSpeed = sPref.getInt(Common.Pref.Key.OFF_SPEED, Common.Pref.Def.OFF_SPEED);
 	}
 }
