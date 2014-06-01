@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScreenOffAnimation</string>
+    <string name="app_info">Egyéni Képernyő kikapcsolási animációk minden ROM-ra (zst123)</string>
+    
+    <string name="error_animating">"Hiba az aktuális animációnál"</string>
+    <string name="menu_reset_settings_title">Beállítások visszaállitása</string>
+    <string name="menu_reset_settings_dialog">Visszaállítja az összes beállítást az alapértelmezettre?</string>
+    <string name="xposed_disabled_title">Modul Nem aktív</string>
+    <string name="xposed_disabled_summary">"A modul nem működik.
+Győződjön meg arról, hogy ez a modul be van jelölve Xposed Installer-ben, és inditsa újra a készüléket"</string>
+
+    <string name="setting_enable">Engedélyez</string>
+    <string name="setting_anim">Animáció</string>
+    <string name="setting_anim_button">Válasszon Animációt</string>
+    <string name="setting_speed">Sebesség</string>
+    <string name="setting_preview">Előnézet</string>
+    <string name="setting_preview_button">Animáció Előnézet</string>
+    
+    <string name="anim_fade">Halványít</string>
+    <string name="anim_crt">CRT (Vízszintes)</string>
+    <string name="anim_crt_vertical">CRT (Függőleges)</string>
+    <string name="anim_scale_down">Kicsinyít</string>
+    <string name="anim_tv_burn">TV</string>
+    <string name="anim_lgog">LG Optimus G</string>
+</resources>
