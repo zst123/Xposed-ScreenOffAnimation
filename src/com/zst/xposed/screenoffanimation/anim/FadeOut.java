@@ -9,7 +9,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-public class FadeOut extends ScreenOffAnim.Implementation {
+public class FadeOut extends AnimImplementation {
 	@Override
 	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		final View outline = new View(ctx);
