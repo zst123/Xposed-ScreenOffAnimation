@@ -24,6 +24,7 @@ public abstract class EffectsListView extends ListView {
 		mCurrentAnimId = old_anim_id;
 		mUseScreenOnAnim = screen_on_anim;
 		final EffectsAdapter adapter = new EffectsAdapter(context);
+		adapter.add(new Effect(context, R.string.anim_none, Common.Anim.UNKNOWN));
 		adapter.add(new Effect(context, R.string.anim_fade, Common.Anim.FADE));
 		adapter.add(new Effect(context, R.string.anim_crt, Common.Anim.CRT));
 		adapter.add(new Effect(context, R.string.anim_crt_vertical, Common.Anim.CRT_VERTICAL));

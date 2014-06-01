@@ -28,11 +28,9 @@ public class Common {
 		
 		// Preference Keys
 		public static class Key {
-			public final static String OFF_ENABLED = "anim_enabled";
 			public final static String OFF_EFFECT = "anim_effect";
 			public final static String OFF_SPEED = "anim_speed";
 			
-			public final static String ON_ENABLED = "wake_enabled";
 			public final static String ON_EFFECT = "wake_effect";
 			public final static String ON_SPEED = "wake_speed";
 		}

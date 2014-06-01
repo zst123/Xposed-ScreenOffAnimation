@@ -13,10 +13,7 @@ import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -29,7 +26,6 @@ public class MainActivity extends Activity {
 	private SharedPreferences mPref;
 	private int mCurrentAnim;
 	
-	Switch mSwitchEnabled;
 	TextView mTextSpeed;
 	SeekBar mSeekSpeed;
 	
@@ -53,15 +49,6 @@ public class MainActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	private void setup() {
 		mPref = getSharedPreferences(Pref.PREF_MAIN, MODE_WORLD_READABLE);
-		
-		mSwitchEnabled = (Switch) findViewById(R.id.switch_enable);
-		mSwitchEnabled.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				mPref.edit().putBoolean(Pref.Key.OFF_ENABLED, isChecked).commit();
-				updateSettings();
-			}
-		});
 		
 		mTextSpeed = (TextView) findViewById(R.id.tV_speed_value);
 		mSeekSpeed = (SeekBar) findViewById(R.id.seekBar_speed);
@@ -122,13 +109,11 @@ public class MainActivity extends Activity {
 	}
 	
 	private void loadPref() {
-		final boolean enabled = mPref.getBoolean(Pref.Key.OFF_ENABLED, Pref.Def.OFF_ENABLED);
 		final int speed = mPref.getInt(Pref.Key.OFF_SPEED, Pref.Def.OFF_SPEED);
 		final int adjusted_speed = (speed - SPEED_MIN) / SPEED_INTERVAL;
 		
 		mCurrentAnim = mPref.getInt(Pref.Key.OFF_EFFECT, Pref.Def.OFF_EFFECT);
-
-		mSwitchEnabled.setChecked(enabled);
+		
 		mSeekSpeed.setProgress(adjusted_speed);
 		mTextSpeed.setText(speed + " ms");
 	}

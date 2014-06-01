@@ -21,6 +21,7 @@
     <string name="setting_preview_button">Preview Animation</string>
 
     <!-- Animations -->
+    <string name="anim_none">None</string>
     <string name="anim_fade">Fade</string>
     <string name="anim_crt">CRT (Horizontal)</string>
     <string name="anim_crt_vertical">CRT (Vertical)</string>
