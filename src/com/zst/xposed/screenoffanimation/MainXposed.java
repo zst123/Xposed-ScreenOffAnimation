@@ -9,13 +9,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.content.res.XModuleResources;
+import android.os.PowerManager;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
@@ -54,6 +57,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepNoUpdateLocked", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
+			XposedBridge.hookAllMethods(hookClass, "wakeUpNoUpdateLocked", sScreenWakeHook); //ICS = sendNotificationLocked(true,...)
 			hookDisableNativeScreenOffAnim(lpparam);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
 		} catch (Throwable e) {
@@ -126,6 +130,62 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			} else {
 				return null;
 			}
+		}
+	};
+	
+	private final XC_MethodHook sScreenWakeHook = new XC_MethodHook() {
+		@Override
+		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
+			if (!mEnabled) {
+				Utils.logcat("WAKEUP: in b4 out");
+				//return Utils.callOriginal(param);
+			}
+			
+			if ((Boolean)param.getResult() == false) return;
+			
+			Utils.logcat("WAKEUP: ================================");
+			
+			Utils.logcat("WAKEUP: Inside 1");
+			
+			if (mContext == null) {
+				Utils.logcat("WAKEUP: Context null ");
+				// If the context cannot be retrieved from the init method,
+				try {
+					mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+					mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+					installBroadcast();
+				} catch (Exception e){
+					Utils.log("Context cannot be retrieved in wake(backup method failed) - " + e.toString());
+					e.printStackTrace();
+				}
+			}
+			
+			Utils.logcat("WAKEUP: Context not null ");
+			
+			ScreenOnAnim.Implementation anim = new ScreenOnAnim.Implementation() {
+				
+				@Override
+				public void animateWake(Context ctx, WindowManager wm, MethodHookParam param, Resources res)
+						throws Exception {
+}
+			};
+			if (anim != null) {
+				try {
+					Utils.logcat("WAKEUP: Inside before animate");
+					anim.anim_speed = mAnimationSpeed;
+					anim.animateWakeOnHandler(mContext, mWm, sModRes);
+					Utils.logcat("WAKEUP: Has animated wake ");
+				} catch (Exception e) {
+					// So we don't crash system.
+					Utils.toast(mContext, sModRes.getString(R.string.error_animating));
+					Utils.log("Error with animateWakeOnHandler", e);
+				}
+			} else {
+				//return Utils.callOriginal(param);
+			}
+			
+			Utils.logcat("WAKEUP: *************************** ");
+			//return null;
 		}
 	};
 	
