@@ -21,6 +21,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 	
 	public static boolean mDontAnimate;
+	public static boolean mAnimationRunning;
 
 	static XModuleResources sModRes;
 	static XSharedPreferences sPref;
@@ -108,7 +109,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			}
 			
 			ScreenOffAnim.Implementation anim = findAnimation(mAnimationIndex);
-			if (anim != null) {
+			if (anim != null && !mAnimationRunning) {
 				try {
 					anim.anim_speed = mAnimationSpeed;
 					anim.animateOnHandler(mContext, mWm, param, sModRes);
@@ -206,5 +207,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		mEnabled = sPref.getBoolean(Common.Pref.Key.ENABLED, Common.Pref.Def.ENABLED);
 		mAnimationIndex = sPref.getInt(Common.Pref.Key.EFFECT, Common.Pref.Def.EFFECT);
 		mAnimationSpeed = sPref.getInt(Common.Pref.Key.SPEED, Common.Pref.Def.SPEED);
+		
+		mAnimationRunning = false;
 	}
 }

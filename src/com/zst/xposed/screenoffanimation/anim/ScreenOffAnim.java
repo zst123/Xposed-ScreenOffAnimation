@@ -66,6 +66,8 @@ public abstract class ScreenOffAnim {
 	}
 	
 	public void show(View animating_view) {
+		MainXposed.mAnimationRunning = true;
+		
 		mConsumer.start();
 		
 		mFrame.removeAllViews();
@@ -102,6 +104,7 @@ public abstract class ScreenOffAnim {
 	public abstract void animateView();
 	
 	public void finishAnimation() {
+		MainXposed.mAnimationRunning = false;
 		try {
 			Utils.callOriginal(mMethodParam);
 		} catch (Exception e) {
