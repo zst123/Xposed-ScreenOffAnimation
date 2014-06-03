@@ -28,7 +28,7 @@ public class FadeOut extends ScreenOffAnim.Implementation {
 			@Override
 			public void onAnimationEnd(Animation a) {
 				holder.mFrame.setBackgroundColor(Color.BLACK);
-				delayFinishAnimation(ctx, holder, 100);
+				finish(ctx, holder, 100);
 			}
 			@Override
 			public void onAnimationStart(Animation a) {}

@@ -51,7 +51,7 @@ public class LGOptimusG extends ScreenOffAnim.Implementation {
 		mFinishAnimRunnable = new Runnable() {
 			@Override
 			public void run() {
-				holder.finishAnimation();
+				finish(ctx, holder, 0);
 			}
 		};
 		

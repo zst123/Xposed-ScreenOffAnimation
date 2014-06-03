@@ -42,7 +42,7 @@ public class FadeTiles extends ScreenOffAnim.Implementation {
 		mHolder.show(view);
 	}
 	
-	private FadeTilesView makeSplitImageView(Context c, Resources res,
+	private FadeTilesView makeSplitImageView(final Context c, Resources res,
 			Bitmap bitmap, int sizeDp) {
 		final int size = Utils.dp(sizeDp, c);
 		
@@ -70,7 +70,7 @@ public class FadeTiles extends ScreenOffAnim.Implementation {
 		return new FadeTilesView(c, res, imageArray, rows, columns) {
 			@Override
 			public void onFinishAnimation() {
-				mHolder.finishAnimation();
+				finish(c, mHolder, 0);
 			}
 		};
 	}

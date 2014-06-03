@@ -103,7 +103,7 @@ public abstract class ScreenOffAnim {
 	
 	public abstract void animateView();
 	
-	public void finishAnimation() {
+	private void finishAnimation() {
 		MainXposed.mAnimationRunning = false;
 		try {
 			Utils.callOriginal(mMethodParam);
@@ -190,15 +190,18 @@ public abstract class ScreenOffAnim {
 		
 		/**
 		 * Helper method to finish the animation after a delay
-		 * TODO: Refactor and move
 		 */
-		public void delayFinishAnimation(Context ctx, final ScreenOffAnim holder, int delay) {
-			new Handler(ctx.getMainLooper()).postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					holder.finishAnimation();
-				}
-			}, delay);
+		public void finish(Context ctx, final ScreenOffAnim holder, int delay) {
+			if (delay <= 0) {
+				holder.finishAnimation();
+			} else {
+				new Handler(ctx.getMainLooper()).postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						holder.finishAnimation();
+					}
+				}, delay);
+			}
 		}
 	}
 }

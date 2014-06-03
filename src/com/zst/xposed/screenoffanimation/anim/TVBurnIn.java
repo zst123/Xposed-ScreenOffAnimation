@@ -49,7 +49,7 @@ public class TVBurnIn extends ScreenOffAnim.Implementation {
 		anim.setAnimationListener(new Animation.AnimationListener() {
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				delayFinishAnimation(ctx, holder, 100);
+				finish(ctx, holder, 100);
 			}
 			@Override
 			public void onAnimationStart(Animation a) {}
