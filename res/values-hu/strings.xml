@@ -23,4 +23,5 @@ Győződjön meg arról, hogy ez a modul be van jelölve Xposed Installer-ben, �
     <string name="anim_scale_down">Kicsinyít</string>
     <string name="anim_tv_burn">TV</string>
     <string name="anim_lgog">LG Optimus G</string>
+    <string name="anim_fadetiles">Elhalványuló Csempék</string>
 </resources>
