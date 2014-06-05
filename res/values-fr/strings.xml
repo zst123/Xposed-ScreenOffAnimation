@@ -24,5 +24,6 @@
     <string name="anim_scale_down">Réduire</string>
     <string name="anim_tv_burn">TV Burn In</string>
     <string name="anim_lgog">LG Optimus G</string>
+    <string name="anim_fadetiles">Fondu en cascade</string>
 
 </resources>
