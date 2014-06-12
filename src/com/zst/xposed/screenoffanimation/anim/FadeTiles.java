@@ -29,17 +29,17 @@ public class FadeTiles extends ScreenOffAnim.Implementation {
 	ScreenOffAnim mHolder;
 	
 	@Override
-	public void animate(Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
+	public void animateScreenOff(Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		final Bitmap screenie = ScreenshotUtil.takeScreenshot(ctx);
 		final FadeTilesView view = makeSplitImageView(ctx, res, screenie, 40);
 		mHolder = new ScreenOffAnim(ctx, wm, param) {
 			@Override
-			public void animateView() {
+			public void animateScreenOffView() {
 				view.startFade();
 			}
 		};
 		mHolder.mFrame.setBackgroundColor(Color.BLACK);
-		mHolder.show(view);
+		mHolder.showScreenOffView(view);
 	}
 	
 	private FadeTilesView makeSplitImageView(final Context c, Resources res,

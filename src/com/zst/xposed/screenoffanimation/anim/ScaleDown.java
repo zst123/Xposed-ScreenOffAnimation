@@ -20,7 +20,7 @@ public class ScaleDown extends ScreenOffAnim.Implementation {
 	 * Idea originally by XpLoDWilD
 	 */
 	@Override
-	public void animate(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
+	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		final ImageView view = new ImageView(ctx);
 		view.setScaleType(ScaleType.FIT_XY);
 		view.setImageBitmap(ScreenshotUtil.takeScreenshot(ctx));
@@ -33,7 +33,7 @@ public class ScaleDown extends ScreenOffAnim.Implementation {
 		
 		final ScreenOffAnim holder = new ScreenOffAnim(ctx, wm, param) {
 			@Override
-			public void animateView() {
+			public void animateScreenOffView() {
 				view.startAnimation(anim);
 			}
 		};
@@ -49,6 +49,6 @@ public class ScaleDown extends ScreenOffAnim.Implementation {
 			public void onAnimationRepeat(Animation a) {}
 		});
 		holder.mFrame.setBackgroundColor(Color.BLACK);
-		holder.show(view);
+		holder.showScreenOffView(view);
 	}
 }

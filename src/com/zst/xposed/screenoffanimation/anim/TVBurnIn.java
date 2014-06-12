@@ -28,7 +28,7 @@ public class TVBurnIn extends ScreenOffAnim.Implementation {
 	 * TV Burn In Animation
 	 */
 	@Override
-	public void animate(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
+	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		BitmapDrawable screenshot = drawable(ctx, ScreenshotUtil.takeScreenshot(ctx));
 		
 		final ImageView view = new ImageView(ctx);
@@ -42,7 +42,7 @@ public class TVBurnIn extends ScreenOffAnim.Implementation {
 		
 		final ScreenOffAnim holder = new ScreenOffAnim(ctx, wm, param) {
 			@Override
-			public void animateView() {
+			public void animateScreenOffView() {
 				view.startAnimation(anim);
 			}
 		};
@@ -57,7 +57,7 @@ public class TVBurnIn extends ScreenOffAnim.Implementation {
 			public void onAnimationRepeat(Animation a) {}
 		});
 		holder.mFrame.setBackgroundColor(Color.BLACK);
-		holder.show(view);
+		holder.showScreenOffView(view);
 	}
 	
 	public BitmapDrawable drawable(Context c, Bitmap bmp) {

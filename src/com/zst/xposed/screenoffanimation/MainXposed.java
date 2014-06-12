@@ -112,7 +112,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			if (anim != null && !mAnimationRunning) {
 				try {
 					anim.anim_speed = mAnimationSpeed;
-					anim.animateOnHandler(mContext, mWm, param, sModRes);
+					anim.animateScreenOffWithHandler(mContext, mWm, param, sModRes);
 				} catch (Exception e) {
 					// So we don't crash system.
 					Utils.toast(mContext, sModRes.getString(R.string.error_animating));
@@ -166,7 +166,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					if (anim != null) {
 						try {
 							anim.anim_speed = mAnimationSpeed;
-							anim.animateOnHandler(mContext, mWm, null, sModRes);
+							anim.animateScreenOffWithHandler(mContext, mWm, null, sModRes);
 						} catch (Exception e) {
 							// So we don't crash system.
 							Utils.toast(mContext, sModRes.getString(R.string.error_animating));

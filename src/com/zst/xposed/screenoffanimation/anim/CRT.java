@@ -22,7 +22,7 @@ public class CRT extends ScreenOffAnim.Implementation {
 	 * Electron Beam (CRT) Animation
 	 */
 	@Override
-	public void animate(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
+	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
 		final ImageView view = new ImageView(ctx);
 		view.setScaleType(ScaleType.FIT_XY);
 		view.setImageBitmap(ScreenshotUtil.takeScreenshot(ctx));
@@ -56,7 +56,7 @@ public class CRT extends ScreenOffAnim.Implementation {
 		
 		final ScreenOffAnim holder = new ScreenOffAnim(ctx, wm, param) {
 			@Override
-			public void animateView() {
+			public void animateScreenOffView() {
 				view.startAnimation(anim);
 			}
 		};
@@ -73,7 +73,7 @@ public class CRT extends ScreenOffAnim.Implementation {
 		});
 		
 		holder.mFrame.setBackgroundColor(Color.BLACK);
-		holder.show(view);
+		holder.showScreenOffView(view);
 	}
 	
 	public Animation loadCRTAnimation(Context ctx, Resources res) {
