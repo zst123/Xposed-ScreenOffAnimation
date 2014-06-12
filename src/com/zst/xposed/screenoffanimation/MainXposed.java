@@ -108,7 +108,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				}
 			}
 			
-			ScreenOffAnim.Implementation anim = findAnimation(mAnimationIndex);
+			AnimImplementation anim = findAnimation(mAnimationIndex);
 			if (anim != null && !mAnimationRunning) {
 				try {
 					anim.anim_speed = mAnimationSpeed;
@@ -162,7 +162,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				if (i.getAction().equals(Common.BROADCAST_TEST_ANIMATION)) {
 					final int anim_id = i.getIntExtra(Common.EXTRA_TEST_ANIMATION,
 							Common.Pref.Def.EFFECT);
-					ScreenOffAnim.Implementation anim = findAnimation(anim_id);
+					AnimImplementation anim = findAnimation(anim_id);
 					if (anim != null) {
 						try {
 							anim.anim_speed = mAnimationSpeed;
@@ -179,7 +179,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		}, filter);
 	}
 	
-	private ScreenOffAnim.Implementation findAnimation(int id) {
+	private AnimImplementation findAnimation(int id) {
 		switch (id) {
 		case Common.Anim.UNKNOWN:
 		case Common.Anim.FADE:

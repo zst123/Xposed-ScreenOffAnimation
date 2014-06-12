@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-public class TVBurnIn extends ScreenOffAnim.Implementation {
+public class TVBurnIn extends AnimImplementation {
 	/**
 	 * TV Burn In Animation
 	 */

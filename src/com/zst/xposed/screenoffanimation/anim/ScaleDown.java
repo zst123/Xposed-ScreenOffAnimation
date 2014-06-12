@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-public class ScaleDown extends ScreenOffAnim.Implementation {
+public class ScaleDown extends AnimImplementation {
 	/**
 	 * Scale Down Animation.
 	 * Idea originally by XpLoDWilD

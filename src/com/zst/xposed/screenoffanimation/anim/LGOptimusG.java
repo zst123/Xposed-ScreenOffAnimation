@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-public class LGOptimusG extends ScreenOffAnim.Implementation {
+public class LGOptimusG extends AnimImplementation {
 	
 	/**
 	 * Based on the LG Optimus G

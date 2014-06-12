@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-public class CRT extends ScreenOffAnim.Implementation {
+public class CRT extends AnimImplementation {
 	/**
 	 * Electron Beam (CRT) Animation
 	 */

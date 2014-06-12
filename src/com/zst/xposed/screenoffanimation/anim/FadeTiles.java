@@ -18,7 +18,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-public class FadeTiles extends ScreenOffAnim.Implementation {
+public class FadeTiles extends AnimImplementation {
 	/**
 	 * Inspired by iOS Cydia Tweak SleepFX.
 	 * 
