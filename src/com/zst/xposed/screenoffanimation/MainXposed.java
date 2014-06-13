@@ -119,7 +119,9 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					Utils.log("Error with animateOnHandler", e);
 				}
 			} else {
-				return Utils.callOriginal(param);
+				if (!mAnimationRunning) {
+					return Utils.callOriginal(param);
+				}
 			}
 			
 			if (param.method.getName().equals("goToSleepNoUpdateLocked")) {

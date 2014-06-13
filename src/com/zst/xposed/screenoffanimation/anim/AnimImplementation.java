@@ -3,8 +3,11 @@ package com.zst.xposed.screenoffanimation.anim;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.view.WindowManager;
 
+import com.zst.xposed.screenoffanimation.Common;
+import com.zst.xposed.screenoffanimation.MainXposed;
 import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
 
@@ -14,10 +17,16 @@ public abstract class AnimImplementation {
 	/**
 	 * Extend this class and create your own animation here
 	 */
+	public PowerManager.WakeLock mWakelock;
 	public int anim_speed;
 	
 	public void animateScreenOffWithHandler(final Context ctx, final WindowManager wm,
 			final MethodHookParam param, final Resources res) {
+		MainXposed.mAnimationRunning = true;
+
+		mWakelock = ((PowerManager) ctx.getSystemService(Context.POWER_SERVICE))
+				.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Common.LOG_TAG);
+		mWakelock.acquire(1000 * 20);
 		final Handler handler = new Handler(ctx.getMainLooper());
 		final Runnable runnable = new Runnable() {
 			@Override
@@ -43,11 +52,17 @@ public abstract class AnimImplementation {
 	public void finish(Context ctx, final ScreenOffAnim holder, int delay) {
 		if (delay <= 0) {
 			holder.finishScreenOffAnim();
+			if (mWakelock != null && mWakelock.isHeld()) {
+				mWakelock.release();
+			}
 		} else {
 			new Handler(ctx.getMainLooper()).postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					holder.finishScreenOffAnim();
+					if (mWakelock != null && mWakelock.isHeld()) {
+						mWakelock.release();
+					}
 				}
 			}, delay);
 		}
