@@ -66,18 +66,22 @@ public class TouchConsumer {
 	public void start() {
 		try {
 			mWM.addView(mView, LAYOUT_PARAM);
+		} catch (IllegalArgumentException e) {
+			// View already added
 		} catch (Exception e) {
 			Utils.logcat("(TouchConsumer) Error adding view", e);
 		}
 		mHandler.postDelayed(sStopRunnable, 2000);
 	}
 	public void stop() {
+		mHandler.removeCallbacks(sStopRunnable);
 		try {
 			mWM.removeView(mView);
+		} catch (IllegalArgumentException e) {
+			// View already removed
 		} catch (Exception e) {
 			Utils.logcat("(TouchConsumer) Error removing view", e);
 		}
-		mHandler.removeCallbacks(sStopRunnable);
 	}
 	
 	final Runnable sStopRunnable = new Runnable() {

@@ -104,7 +104,8 @@ public abstract class ScreenOffAnim {
 	public void finishScreenOffAnim() {
 		MainXposed.mAnimationRunning = false;
 		try {
-			Utils.callOriginal(mMethodParam);
+			if (mMethodParam != null)
+				Utils.callOriginal(mMethodParam);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
