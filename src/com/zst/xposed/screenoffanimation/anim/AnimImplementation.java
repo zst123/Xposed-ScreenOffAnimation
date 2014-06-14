@@ -20,6 +20,14 @@ public abstract class AnimImplementation {
 	public PowerManager.WakeLock mWakelock;
 	public int anim_speed;
 	
+	public boolean supportsScreenOn() {
+		return true;
+	}
+	
+	public boolean supportsScreenOff(){
+		return true;
+	}
+	
 	public void animateScreenOffWithHandler(final Context ctx, final WindowManager wm,
 			final MethodHookParam param, final Resources res) {
 		MainXposed.mAnimationRunning = true;
@@ -48,6 +56,7 @@ public abstract class AnimImplementation {
 	
 	/**
 	 * Helper method to finish the animation after a delay
+	 * TODO: Rename method to reduce confusion with screen on
 	 */
 	public void finish(Context ctx, final ScreenOffAnim holder, int delay) {
 		if (delay <= 0) {
@@ -67,4 +76,23 @@ public abstract class AnimImplementation {
 			}, delay);
 		}
 	}
+	
+	public void animateScreenOnWithHandler(final Context ctx, final WindowManager wm,
+			final Resources res) {
+		new Handler(ctx.getMainLooper()).post(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					animateScreenOn(ctx, wm, res);
+				} catch (Exception e) {
+					// So we don't crash system.
+					Utils.toast(ctx, res.getString(R.string.error_animating));
+					Utils.log("Error in animateScreenOnWithHandler: " + getClass().getName(), e);
+				}
+			}
+		});
+	}
+	
+	public abstract void animateScreenOn(final Context ctx, final WindowManager wm,
+			final Resources res) throws Exception;
 }

@@ -76,6 +76,59 @@ public class CRT extends AnimImplementation {
 		holder.showScreenOffView(view);
 	}
 	
+	@Override
+	public void animateScreenOn(Context ctx, WindowManager wm, Resources res) throws Exception {
+		final ImageView view = new ImageView(ctx);
+		view.setScaleType(ScaleType.FIT_XY);
+		view.setImageResource(android.R.color.black);
+		view.setBackgroundColor(Color.WHITE);
+		
+		final AlphaAnimation alpha = new AlphaAnimation(1.25f, 0) {
+			@Override
+			@SuppressWarnings("deprecation")
+			protected void applyTransformation(float interpolatedTime, Transformation t) {
+				final float fromAlpha = 1;
+				float newAlpha = fromAlpha + ((0 - fromAlpha) * interpolatedTime);
+				if (newAlpha > 1)
+					newAlpha = 1;
+				if (Build.VERSION.SDK_INT >= 16) {
+					view.setImageAlpha((int) (newAlpha * 255));
+				} else {
+					view.setAlpha((int) (newAlpha * 255));
+				}
+			}
+		};		
+		final AnimationSet anim = new AnimationSet(false);
+		anim.addAnimation(loadCRTAnimation(ctx, res));
+		anim.addAnimation(alpha);
+		anim.setDuration(anim_speed);
+		final float scale = (anim_speed) / 200;
+		if (scale >= 1) {
+			anim.scaleCurrentDuration(scale);
+		}
+		anim.setFillAfter(true);
+		anim.setStartOffset(100);
+		
+		final ScreenOnAnim holder = new ScreenOnAnim(ctx, wm) {
+			@Override
+			public void animateScreenOnView() {
+				view.startAnimation(anim);
+			}
+		};
+		
+		anim.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				holder.finishScreenOnAnim();
+			}
+			@Override
+			public void onAnimationStart(Animation a) {}
+			@Override
+			public void onAnimationRepeat(Animation a) {}
+		});
+		holder.showScreenOnView(view);
+	}
+	
 	public Animation loadCRTAnimation(Context ctx, Resources res) {
 		return Utils.loadAnimation(ctx, res, R.anim.crt_tv);
 	}

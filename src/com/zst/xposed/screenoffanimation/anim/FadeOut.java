@@ -37,4 +37,31 @@ public class FadeOut extends AnimImplementation {
 		});
 		holder.showScreenOffView(outline);
 	}
+
+	@Override
+	public void animateScreenOn(Context ctx, WindowManager wm, Resources res) throws Exception {
+		final View outline = new View(ctx);
+		outline.setBackgroundColor(Color.BLACK);
+		
+		final Animation fadeIn = new AlphaAnimation(1, 0);
+		fadeIn.setDuration(anim_speed);
+		
+		final ScreenOnAnim holder = new ScreenOnAnim(ctx, wm) {
+			@Override
+			public void animateScreenOnView() {
+				outline.startAnimation(fadeIn);
+			}
+		};
+		fadeIn.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationEnd(Animation a) {
+				holder.finishScreenOnAnim();
+			}
+			@Override
+			public void onAnimationStart(Animation a) {}
+			@Override
+			public void onAnimationRepeat(Animation a) {}
+		});
+		holder.showScreenOnView(outline);
+	}
 }

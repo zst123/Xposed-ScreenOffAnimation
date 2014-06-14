@@ -1,10 +1,7 @@
 package com.zst.xposed.screenoffanimation.anim;
 
-import com.zst.xposed.screenoffanimation.helpers.ScreenshotUtil;
-
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Paint.Style;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
@@ -25,17 +23,16 @@ public class LGOptimusG extends AnimImplementation {
 	Runnable mFinishAnimRunnable;
 	@Override
 	public void animateScreenOff(final Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
-		final Bitmap screenshot = ScreenshotUtil.takeScreenshot(ctx);
-		// FIXME find width and height without using screenshot
+		DisplayMetrics display = new DisplayMetrics();
+		wm.getDefaultDisplay().getRealMetrics(display);
 		
-		final int larger_side = screenshot.getWidth() > screenshot.getHeight() ?
-				screenshot.getWidth() : screenshot.getHeight();
+		final int larger_side = Math.max(display.widthPixels, display.heightPixels);
 		final int diameter = (int) (larger_side * 1.3f);
 		final int delay = 10;
 
 	    final Handler handler = new Handler(ctx.getMainLooper());
-		final InverseCircleView view = new InverseCircleView(ctx, screenshot.getWidth(),
-				screenshot.getHeight(), diameter, delay, anim_speed/2) {
+		final InverseShrinkCircleView view = new InverseShrinkCircleView(ctx, display.widthPixels,
+				display.heightPixels, diameter, delay, anim_speed/2) {
 			@Override
 			public void onFinishAnimation() {
 				handler.postDelayed(mFinishAnimRunnable, delay * 2);
@@ -58,7 +55,7 @@ public class LGOptimusG extends AnimImplementation {
 		holder.showScreenOffView(view);
 	}
 	
-	private abstract class InverseCircleView extends View {
+	private abstract class InverseShrinkCircleView extends View {
 		final int width;
 		final int height;
 		final int duration;
@@ -68,7 +65,8 @@ public class LGOptimusG extends AnimImplementation {
 		Paint mPaint;
 		float mDiameter;
 
-		public InverseCircleView(Context context, int w, int h, float diametr, int delayy, int time) {
+		public InverseShrinkCircleView(Context context, int w, int h, float diametr,
+				int delayy, int time) {
 			super(context);
 			width = w;
 			height = h;
@@ -112,4 +110,69 @@ public class LGOptimusG extends AnimImplementation {
 		public abstract void onFinishAnimation();
 	}
 
+	@Override
+	public void animateScreenOn(Context ctx, WindowManager wm, Resources res) throws Exception {
+		DisplayMetrics display = new DisplayMetrics();
+		wm.getDefaultDisplay().getRealMetrics(display);
+		
+		final int larger_side = Math.max(display.widthPixels, display.heightPixels);
+		final int diameter = (int) (larger_side * 1.3f);
+		final int delay = 10;
+		
+		final Handler handler = new Handler(ctx.getMainLooper());
+		final InverseGrowCircleView view = new InverseGrowCircleView(ctx, display.widthPixels,
+				display.heightPixels, diameter, delay, anim_speed / 2) {
+			@Override
+			public void onFinishAnimation() {
+				handler.postDelayed(mFinishAnimRunnable, delay * 2);
+			}
+		};
+		final ScreenOnAnim holder = new ScreenOnAnim(ctx, wm) {
+			@Override
+			public void animateScreenOnView() {
+				view.invalidate();
+			}
+		};
+		
+		mFinishAnimRunnable = new Runnable() {
+			@Override
+			public void run() {
+				holder.finishScreenOnAnim();
+			}
+		};
+		holder.showScreenOnView(view);
+	}
+	
+	private abstract class InverseGrowCircleView extends InverseShrinkCircleView {
+		int currentDiameter;
+		
+		public InverseGrowCircleView(Context context, int w, int h,
+				float diametr, int delayy, int time) {
+			super(context, w, h, diametr, delayy, time);
+		}
+		
+		@Override
+		protected void onDraw(Canvas canvas) {
+			if (mDiameter <= currentDiameter) {
+				invalidate();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
+				onFinishAnimation();
+				return;
+			}
+			
+			canvas.drawColor(Color.BLACK);
+			canvas.drawCircle(width / 2, height / 2, currentDiameter / 2, mPaint);
+			
+			currentDiameter = currentDiameter + update_factor;
+			
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {}
+			
+			invalidate();
+		}
+		
+	}
 }

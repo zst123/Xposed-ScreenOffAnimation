@@ -97,4 +97,15 @@ public class TVBurnIn extends AnimImplementation {
 		canvas.drawBitmap(image, rect, rect, paint);
 		return drawable(c, image);
 	}
+
+	@Override
+	public boolean supportsScreenOn() {
+		return false;
+	}
+	
+	@Override
+	public void animateScreenOn(Context ctx, WindowManager wm, Resources res)
+			throws Exception {
+		throw new Exception("This class doesn't support screen on animation");
+	}
 }

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -27,6 +28,7 @@ public class FadeTiles extends AnimImplementation {
 	 * http://www.functionx.com/java/Lesson22.htm
 	 */
 	ScreenOffAnim mHolder;
+	ScreenOnAnim mHolderOn;
 	
 	@Override
 	public void animateScreenOff(Context ctx, WindowManager wm, MethodHookParam param, Resources res) {
@@ -67,10 +69,39 @@ public class FadeTiles extends AnimImplementation {
 			y_position = y_position + size;
 		}
 		
-		return new FadeTilesView(c, res, imageArray, rows, columns) {
+		return new FadeTilesView(c, res, imageArray, rows, columns, size) {
 			@Override
 			public void onFinishAnimation() {
 				finish(c, mHolder, 0);
+			}
+		};
+	}
+	
+	@Override
+	public void animateScreenOn(Context ctx, WindowManager wm, Resources res) throws Exception {
+		final DisplayMetrics display = new DisplayMetrics();
+		wm.getDefaultDisplay().getRealMetrics(display);
+		
+		final FadeTilesView view = makeSplitBlackView(ctx, display, res, 40);
+		mHolderOn = new ScreenOnAnim(ctx, wm) {
+			@Override
+			public void animateScreenOnView() {
+				view.startFade();
+			}
+		};
+		mHolderOn.showScreenOnView(view);
+	}
+	
+	private FadeTilesView makeSplitBlackView(final Context c, DisplayMetrics display, Resources res, int sizeDp) {
+		final int size = Utils.dp(sizeDp, c);
+		
+		int rows = (int) Math.ceil(display.heightPixels / ((double) size)); // horizontal - y
+		int columns = (int) Math.ceil(display.widthPixels / ((double) size)); // vertical - x
+		
+		return new FadeTilesView(c, res, null, rows, columns, size) {
+			@Override
+			public void onFinishAnimation() {
+				mHolderOn.finishScreenOnAnim();
 			}
 		};
 	}
@@ -79,7 +110,7 @@ public class FadeTiles extends AnimImplementation {
 		final DecelerateInterpolator sInterpolator = new DecelerateInterpolator();
 		final ArrayList<ImageView> mViews;
 		
-		public FadeTilesView(Context ctx, Resources res, final Bitmap[][] array, int rows, int columns) {
+		public FadeTilesView(Context ctx, Resources res, final Bitmap[][] array, int rows, int columns, int size) {
 			super(ctx);
 			setOrientation(LinearLayout.VERTICAL);
 			mViews = new ArrayList<ImageView>();
@@ -106,11 +137,16 @@ public class FadeTiles extends AnimImplementation {
 						});
 					}
 					final ImageView view = new ImageView(ctx);
-					view.setLayoutParams(new LinearLayout.LayoutParams(
-							array[r][c].getWidth(),
-							array[r][c].getHeight()));
-					view.setScaleType(ScaleType.FIT_CENTER);
-					view.setImageBitmap(array[r][c]);
+					if (array == null) {
+						view.setLayoutParams(new LinearLayout.LayoutParams(size, size));
+						view.setImageResource(android.R.color.black);
+					} else {
+						view.setLayoutParams(new LinearLayout.LayoutParams(
+								array[r][c].getWidth(),
+								array[r][c].getHeight()));
+						view.setScaleType(ScaleType.FIT_CENTER);
+						view.setImageBitmap(array[r][c]);
+					}
 					view.setAnimation(anim);
 					
 					mViews.add(view);

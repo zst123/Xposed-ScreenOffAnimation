@@ -54,6 +54,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					"com.android.server.power.PowerManagerService", lpparam.classLoader);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepInternal", sScreenOffHook);
 			XposedBridge.hookAllMethods(hookClass, "goToSleepNoUpdateLocked", sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "wakeUpNoUpdateLocked", sScreenWakeHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			hookDisableNativeScreenOffAnim(lpparam);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
@@ -109,7 +110,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			}
 			
 			AnimImplementation anim = findAnimation(mAnimationIndex);
-			if (anim != null && !mAnimationRunning) {
+			if (anim != null && anim.supportsScreenOff() && !mAnimationRunning) {
 				try {
 					anim.anim_speed = mAnimationSpeed;
 					anim.animateScreenOffWithHandler(mContext, mWm, param, sModRes);
@@ -128,6 +129,40 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				return true;
 			} else {
 				return null;
+			}
+		}
+	};
+	
+	private final XC_MethodHook sScreenWakeHook = new XC_MethodHook() {
+		@Override
+		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
+			if (!mEnabled || (Boolean) param.getResult() == false) {
+				// not updating state
+				return;
+			}
+			
+			if (mContext == null) {
+				// If the context cannot be retrieved from the init method,
+				try {
+					mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+					mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+					installBroadcast();
+				} catch (Exception e) {
+					Utils.log("Context cannot be retrieved in wake (backup method failed) - "
+							+ e.toString());
+					e.printStackTrace();
+				}
+			}
+			
+			final AnimImplementation anim = findAnimation(mAnimationIndex);
+			if (anim != null && anim.supportsScreenOn()) {
+				try {
+					anim.anim_speed = mAnimationSpeed;
+					anim.animateScreenOnWithHandler(mContext, mWm, sModRes);
+				} catch (Exception e) {
+					// So we don't crash system.
+					Utils.toast(mContext, sModRes.getString(R.string.error_animating));
+				}
 			}
 		}
 	};
