@@ -50,28 +50,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:switchTextAppearance="@android:style/TextAppearance.Holo.Inverse"
-                android:text="@string/setting_enable"
+                android:text="@string/setting_anim"
                 android:textColor="@color/theme_color"
                 android:textSize="@dimen/text_medium"
                 android:thumb="@drawable/purple_switch_inner_holo_light"
                 android:track="@drawable/purple_switch_track_holo_light" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/bg_card_ui"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/setting_anim"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/theme_color"
-                android:textSize="@dimen/text_medium" />
 
             <Button
                 android:id="@+id/select_anim_button"
