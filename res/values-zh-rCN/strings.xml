@@ -12,6 +12,7 @@
     <string name="setting_enable">启用</string>
     <string name="setting_anim">动画</string>
     <string name="setting_anim_off">屏幕关闭动画</string>
+    <string name="setting_anim_on">屏幕唤醒动画</string>
     <string name="setting_anim_button">选择动画</string>
     <string name="setting_speed">速度</string>
     <string name="setting_preview">预览</string>
@@ -22,4 +23,5 @@
     <string name="anim_scale_down">缩进特效</string>
     <string name="anim_tv_burn">电视断电特效</string>
     <string name="anim_lgog">LG Optimus G特效</string>
+    <string name="anim_fadetiles">平铺淡化特效</string>
 </resources>

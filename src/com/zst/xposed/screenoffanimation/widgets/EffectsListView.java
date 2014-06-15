@@ -42,8 +42,8 @@ public abstract class EffectsListView extends ListView {
 	}
 	public abstract void onSelectEffect(int animId);
 	
-	private void previewEffect(int effect_id) {
-		Intent i = new Intent(Common.BROADCAST_TEST_ANIMATION);
+	void previewEffect(int effect_id) {
+		Intent i = new Intent(Common.BROADCAST_TEST_OFF_ANIMATION);
 		i.putExtra(Common.EXTRA_TEST_ANIMATION, effect_id);
 		getContext().sendBroadcast(i);
 	}

@@ -40,7 +40,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/bg_card_ui"
             android:orientation="vertical" >
 
@@ -54,6 +57,12 @@
                 android:textSize="@dimen/text_medium"
                 android:thumb="@drawable/purple_switch_inner_holo_light"
                 android:track="@drawable/purple_switch_track_holo_light" />
+
+            <LinearLayout
+                android:id="@+id/layout_off_anim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
             <View
                 android:layout_width="match_parent"
@@ -119,7 +128,7 @@
                     android:textSize="@dimen/text_small" />
 
             </LinearLayout>
-
+            
             <SeekBar
                 android:id="@+id/seekBar_speed"
                 android:layout_width="match_parent"
@@ -127,23 +136,14 @@
                 android:layout_weight="1"
                 android:max="1900" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/bg_card_ui"
-            android:orientation="vertical" >
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/setting_preview"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/theme_color"
-                android:textSize="@dimen/text_medium" />
+                android:layout_height="2dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="12dp"
+                android:background="#ccc" />
 
             <Button
                 android:id="@+id/preview_button"
@@ -156,9 +156,130 @@
                 android:layout_weight="1"
                 android:minHeight="42dip"
                 android:text="@string/setting_preview_button" />
-
+        </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_card_ui"
+            android:orientation="vertical" >
+
+            <Switch
+                android:id="@+id/switch_wake_enable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:switchTextAppearance="@android:style/TextAppearance.Holo.Inverse"
+                android:text="@string/setting_anim_on"
+                android:textColor="@color/theme_color"
+                android:textSize="@dimen/text_medium"
+                android:thumb="@drawable/purple_switch_inner_holo_light"
+                android:track="@drawable/purple_switch_track_holo_light" />
+
+            <LinearLayout
+                android:id="@+id/layout_on_anim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#ccc" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/setting_anim"
+                    android:textColor="@color/theme_color"
+                    android:textSize="@dimen/text_medium" />
+
+                <Button
+                    android:id="@+id/select_wake_anim_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="42dip"
+                    android:text="@string/setting_anim_button" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#ccc" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/setting_speed"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/text_medium" />
+
+                    <TextView
+                        android:id="@+id/tV_wake_speed_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="@android:string/unknownName"
+                        android:textColor="@color/theme_color"
+                        android:textSize="@dimen/text_small" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekBar_wake_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:max="1900" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#ccc" />
+
+                <Button
+                    android:id="@+id/preview_wake_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:minHeight="42dip"
+                    android:text="@string/setting_preview_button" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

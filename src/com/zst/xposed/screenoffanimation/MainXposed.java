@@ -32,6 +32,9 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	static boolean mEnabled = Common.Pref.Def.ENABLED;
 	static int mAnimationIndex = Common.Pref.Def.EFFECT;
 	static int mAnimationSpeed = Common.Pref.Def.SPEED;
+	static boolean mOnEnabled = Common.Pref.Def.ENABLED;
+	static int mOnAnimationIndex = Common.Pref.Def.EFFECT;
+	static int mOnAnimationSpeed = Common.Pref.Def.SPEED;
 	
 	@Override
 	public void initZygote(StartupParam startupParam) throws Throwable {
@@ -136,7 +139,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	private final XC_MethodHook sScreenWakeHook = new XC_MethodHook() {
 		@Override
 		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
-			if (!mEnabled || (Boolean) param.getResult() == false) {
+			if (!mOnEnabled || (Boolean) param.getResult() == false) {
 				// not updating state
 				return;
 			}
@@ -154,10 +157,10 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 				}
 			}
 			
-			final AnimImplementation anim = findAnimation(mAnimationIndex);
+			final AnimImplementation anim = findAnimation(mOnAnimationIndex);
 			if (anim != null && anim.supportsScreenOn()) {
 				try {
-					anim.anim_speed = mAnimationSpeed;
+					anim.anim_speed = mOnAnimationSpeed;
 					anim.animateScreenOnWithHandler(mContext, mWm, sModRes);
 				} catch (Exception e) {
 					// So we don't crash system.
@@ -191,12 +194,13 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	private void installBroadcast() {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Common.BROADCAST_REFRESH_SETTINGS);
-		filter.addAction(Common.BROADCAST_TEST_ANIMATION);
+		filter.addAction(Common.BROADCAST_TEST_OFF_ANIMATION);
+		filter.addAction(Common.BROADCAST_TEST_ON_ANIMATION);
 		
 		mContext.registerReceiver(new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context c, Intent i) {
-				if (i.getAction().equals(Common.BROADCAST_TEST_ANIMATION)) {
+				if (i.getAction().equals(Common.BROADCAST_TEST_OFF_ANIMATION)) {
 					final int anim_id = i.getIntExtra(Common.EXTRA_TEST_ANIMATION,
 							Common.Pref.Def.EFFECT);
 					AnimImplementation anim = findAnimation(anim_id);
@@ -209,6 +213,21 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 							Utils.toast(mContext, sModRes.getString(R.string.error_animating));
 						}
 					}
+					
+				}else if (i.getAction().equals(Common.BROADCAST_TEST_ON_ANIMATION)) {
+					final int anim_id = i.getIntExtra(Common.EXTRA_TEST_ANIMATION,
+							Common.Pref.Def.EFFECT);
+					AnimImplementation anim = findAnimation(anim_id);
+					if (anim != null) {
+						try {
+							anim.anim_speed = mAnimationSpeed;
+							anim.animateScreenOnWithHandler(mContext, mWm, sModRes);
+						} catch (Exception e) {
+							// So we don't crash system.
+							Utils.toast(mContext, sModRes.getString(R.string.error_animating));
+						}
+					}
+					
 				} else if (i.getAction().equals(Common.BROADCAST_REFRESH_SETTINGS)) {
 					refreshSettings();
 				}
@@ -244,6 +263,10 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		mEnabled = sPref.getBoolean(Common.Pref.Key.ENABLED, Common.Pref.Def.ENABLED);
 		mAnimationIndex = sPref.getInt(Common.Pref.Key.EFFECT, Common.Pref.Def.EFFECT);
 		mAnimationSpeed = sPref.getInt(Common.Pref.Key.SPEED, Common.Pref.Def.SPEED);
+		
+		mOnEnabled = sPref.getBoolean(Common.Pref.Key.ON_ENABLED, Common.Pref.Def.ENABLED);
+		mOnAnimationIndex = sPref.getInt(Common.Pref.Key.ON_EFFECT, Common.Pref.Def.EFFECT);
+		mOnAnimationSpeed = sPref.getInt(Common.Pref.Key.ON_SPEED, Common.Pref.Def.SPEED);
 		
 		mAnimationRunning = false;
 	}
