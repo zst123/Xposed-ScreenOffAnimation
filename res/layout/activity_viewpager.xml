@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/xposed_inactive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/bg_card_ui"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/xposed_disabled_title"
+            android:textColor="@color/warning_color"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:text="@string/xposed_disabled_summary"
+            android:textColor="@color/warning_color"
+            android:textSize="@dimen/text_small" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pager_title_strip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:textColor="#fff" />
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
