@@ -220,7 +220,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 					AnimImplementation anim = findAnimation(anim_id);
 					if (anim != null) {
 						try {
-							anim.anim_speed = mAnimationSpeed;
+							anim.anim_speed = mOnAnimationSpeed;
 							anim.animateScreenOnWithHandler(mContext, mWm, sModRes);
 						} catch (Exception e) {
 							// So we don't crash system.
