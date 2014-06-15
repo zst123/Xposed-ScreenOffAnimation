@@ -1,5 +1,8 @@
 package com.zst.xposed.screenoffanimation.widgets;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.zst.xposed.screenoffanimation.Common;
 import com.zst.xposed.screenoffanimation.R;
 
@@ -22,6 +25,12 @@ public abstract class EffectsListView extends ListView {
 		super(context);
 		mCurrentAnimId = old_anim_id;
 		final EffectsAdapter adapter = new EffectsAdapter(context);
+		adapter.addAll(getList(context));
+		setAdapter(adapter);
+	}
+	
+	public List<Effect> getList(Context context) {
+		LinkedList<Effect> adapter = new LinkedList<Effect>();
 		adapter.add(new Effect(context, R.string.anim_fade, Common.Anim.FADE));
 		adapter.add(new Effect(context, R.string.anim_crt, Common.Anim.CRT));
 		adapter.add(new Effect(context, R.string.anim_crt_vertical, Common.Anim.CRT_VERTICAL));
@@ -29,7 +38,7 @@ public abstract class EffectsListView extends ListView {
 		adapter.add(new Effect(context, R.string.anim_tv_burn, Common.Anim.TV_BURN));
 		adapter.add(new Effect(context, R.string.anim_lgog, Common.Anim.LG_OPTIMUS_G));
 		adapter.add(new Effect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
-		setAdapter(adapter);
+		return adapter;
 	}
 	public abstract void onSelectEffect(int animId);
 	
@@ -91,7 +100,7 @@ public abstract class EffectsListView extends ListView {
 		}
 	}
 	
-	private class Effect {
+	class Effect {
 		public final int anim_id;
 		public final String title;
 		public Effect(Context c, int _title_id, int _id) {

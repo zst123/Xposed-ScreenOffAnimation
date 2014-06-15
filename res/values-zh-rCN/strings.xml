@@ -11,6 +11,7 @@
 请确保此模块已在Xposed安装器中勾选并重启过设备。"</string>
     <string name="setting_enable">启用</string>
     <string name="setting_anim">动画</string>
+    <string name="setting_anim_off">屏幕关闭动画</string>
     <string name="setting_anim_button">选择动画</string>
     <string name="setting_speed">速度</string>
     <string name="setting_preview">预览</string>

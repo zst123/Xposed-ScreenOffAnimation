@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/xposed_disabled_title"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/warning_color"
                 android:textSize="@dimen/text_medium" />
 
@@ -50,31 +49,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:switchTextAppearance="@android:style/TextAppearance.Holo.Inverse"
-                android:text="@string/setting_anim"
+                android:text="@string/setting_anim_off"
                 android:textColor="@color/theme_color"
                 android:textSize="@dimen/text_medium"
                 android:thumb="@drawable/purple_switch_inner_holo_light"
                 android:track="@drawable/purple_switch_track_holo_light" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="12dp"
+                android:background="#ccc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/setting_anim"
+                android:textColor="@color/theme_color"
+                android:textSize="@dimen/text_medium" />
+
             <Button
                 android:id="@+id/select_anim_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:minHeight="42dip"
                 android:text="@string/setting_anim_button" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/bg_card_ui"
-            android:orientation="vertical" >
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="12dp"
+                android:background="#ccc" />
 
             <LinearLayout
                 android:layout_width="match_parent"

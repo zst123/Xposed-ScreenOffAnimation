@@ -15,6 +15,7 @@
     <string name="xposed_disabled_summary">This module does not appear to be running.\nEnsure that this module is checked in Xposed Installer and you have rebooted the device</string>
     <string name="setting_enable">Enable</string>
     <string name="setting_anim">Animation</string>
+    <string name="setting_anim_off">Screen Off</string>
     <string name="setting_anim_button">Select Animation</string>
     <string name="setting_speed">Speed</string>
     <string name="setting_preview">Preview</string>
