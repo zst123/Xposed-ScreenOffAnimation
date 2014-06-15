@@ -18,7 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.zst.xposed.screenoffanimation.Common;
 import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.Common.Pref;
-import com.zst.xposed.screenoffanimation.widgets.EffectsListView;
+import com.zst.xposed.screenoffanimation.widgets.OnEffectsListView;
 
 public class ScreenOnFragment extends ScreenOffFragment {
 	
@@ -87,7 +87,7 @@ public class ScreenOnFragment extends ScreenOffFragment {
 			public void onClick(View v) {
 				final AlertDialog dialog = new
 						AlertDialog.Builder(getActivity()).create();
-				dialog.setView(new EffectsListView(getActivity(), mCurrentAnim) {
+				dialog.setView(new OnEffectsListView(getActivity(), mCurrentAnim) {
 					@Override
 					public void onSelectEffect(int animId) {
 						mPref.edit().putInt(Pref.Key.ON_EFFECT, animId).commit();
