@@ -23,6 +23,8 @@
     <string name="setting_preview_button">Preview Animation</string>
 
     <!-- Animations -->
+    <string name="anim_random">Random</string>
+    <string name="anim_random_note">Choose the animations to use for the random selection</string>
     <string name="anim_fade">Fade</string>
     <string name="anim_crt">CRT (Horizontal)</string>
     <string name="anim_crt_vertical">CRT (Vertical)</string>

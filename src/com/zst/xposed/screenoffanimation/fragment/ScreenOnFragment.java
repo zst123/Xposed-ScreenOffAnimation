@@ -1,10 +1,15 @@
 package com.zst.xposed.screenoffanimation.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.zst.xposed.screenoffanimation.Common;
 import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.Common.Pref;
+import com.zst.xposed.screenoffanimation.widgets.EffectsCheckList;
 import com.zst.xposed.screenoffanimation.widgets.OnEffectsListView;
 
 public class ScreenOnFragment extends ScreenOffFragment {
@@ -93,6 +99,36 @@ public class ScreenOnFragment extends ScreenOffFragment {
 						mPref.edit().putInt(Pref.Key.ON_EFFECT, animId).commit();
 						dialog.dismiss();
 						updateSettings();
+						
+						if (animId == Common.Anim.RANDOM) {
+							ViewGroup vg = (ViewGroup) getActivity().getLayoutInflater()
+									.inflate(R.layout.dialog_random_list, null);
+							vg.addView(new EffectsCheckList(getActivity(), mRandomAnimList, true) {
+								@Override
+								public void onChangeCheck(List<Integer> list) {
+									mRandomAnimList = list;
+									if (list.size() == 0) {
+										mPref.edit().putString(Pref.Key.ON_RANDOM_LIST, "").commit();
+									} else {
+										StringBuilder str_list = new StringBuilder();
+										for (int i : list) {
+											str_list.append(i + ",");
+										}
+										mPref.edit().putString(Pref.Key.ON_RANDOM_LIST,
+												str_list.toString()).commit();
+									}
+								}
+							});
+							new AlertDialog.Builder(getActivity())
+								.setOnDismissListener(new DialogInterface.OnDismissListener() {
+									@Override
+									public void onDismiss(DialogInterface arg0) {
+										getActivity().sendBroadcast(new Intent(Common.BROADCAST_REFRESH_SETTINGS));
+									}
+								})
+								.setView(vg)
+								.show();
+						}
 					}
 				});
 				dialog.show();
@@ -124,6 +160,15 @@ public class ScreenOnFragment extends ScreenOffFragment {
 		
 		mCurrentAnim = mPref.getInt(Pref.Key.ON_EFFECT, Pref.Def.EFFECT);
 
+		mRandomAnimList = new ArrayList<Integer>();
+		String randomAnimString =  mPref.getString(Pref.Key.ON_RANDOM_LIST, Pref.Def.RANDOM_LIST);
+		if (!TextUtils.isEmpty(randomAnimString)) {
+			for (String item : randomAnimString.split(",")) {
+				if (!TextUtils.isEmpty(item))
+					mRandomAnimList.add(Integer.parseInt(item));
+			}
+		}
+		
 		mSwitchEnabled.setChecked(enabled);
 		mSettingsLayout.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		mSeekSpeed.setProgress(adjusted_speed);

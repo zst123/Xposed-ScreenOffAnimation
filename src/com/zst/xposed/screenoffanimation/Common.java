@@ -20,6 +20,7 @@ public class Common {
 		public final static int TV_BURN = 5;
 		public final static int LG_OPTIMUS_G = 6;
 		public final static int FADE_TILES = 7;
+		public final static int RANDOM = 99;
 	}
 	
 	// Preferences
@@ -31,9 +32,12 @@ public class Common {
 			public final static String ENABLED = "anim_enabled";
 			public final static String EFFECT = "anim_effect";
 			public final static String SPEED = "anim_speed";
+			public final static String RANDOM_LIST = "anim_random";
+			
 			public final static String ON_ENABLED = "wake_enabled";
 			public final static String ON_EFFECT = "wake_effect";
 			public final static String ON_SPEED = "wake_speed";
+			public final static String ON_RANDOM_LIST = "wake_random";
 		}
 		
 		// Preference Default Values
@@ -41,6 +45,7 @@ public class Common {
 			public final static boolean ENABLED = false;
 			public final static int EFFECT = Anim.FADE;
 			public final static int SPEED = 300;
+			public final static String RANDOM_LIST = "";
 		}
 	}
 	
