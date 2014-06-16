@@ -76,6 +76,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			final Class<?> hookClass = XposedHelpers.findClass(
 					"com.android.server.PowerManagerService", lpparam.classLoader);
 			XposedBridge.hookAllMethods(hookClass, "setPowerState", sScreenOffHook);
+			XposedBridge.hookAllMethods(hookClass, "sendNotificationLocked", sScreenWakeHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (Old Package)");
 		}
@@ -148,7 +149,12 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	private final XC_MethodHook sScreenWakeHook = new XC_MethodHook() {
 		@Override
 		protected void afterHookedMethod(final MethodHookParam param) throws Throwable {
-			if (!mOnEnabled || (Boolean) param.getResult() == false) {
+			if (!mOnEnabled) return;
+			
+			if (param.method.getName().equals("sendNotificationLocked")) {
+				if ((Boolean) param.args[0] == false)
+					return;
+			} else if ((Boolean) param.getResult() == false) {
 				// not updating state
 				return;
 			}

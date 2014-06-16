@@ -43,8 +43,8 @@ public abstract class EffectsCheckList extends ListView {
 	public List<CheckEffect> getOnList(Context context) {
 		LinkedList<CheckEffect> adapter = new LinkedList<CheckEffect>();
 		adapter.add(new CheckEffect(context, R.string.anim_fade, Common.Anim.FADE));
-		adapter.add(new CheckEffect(context, R.string.anim_crt, Common.Anim.CRT));
-		adapter.add(new CheckEffect(context, R.string.anim_crt_vertical, Common.Anim.CRT_VERTICAL));
+		// adapter.add(new CheckEffect(context, R.string.anim_crt, Common.Anim.CRT));
+		// adapter.add(new CheckEffect(context, R.string.anim_crt_vertical, Common.Anim.CRT_VERTICAL));
 		adapter.add(new CheckEffect(context, R.string.anim_scale_down, Common.Anim.SCALE));
 		// adapter.add(new CheckEffect(context, R.string.anim_tv_burn, Common.Anim.TV_BURN));
 		adapter.add(new CheckEffect(context, R.string.anim_lgog, Common.Anim.LG_OPTIMUS_G));

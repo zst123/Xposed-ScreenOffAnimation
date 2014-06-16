@@ -25,8 +25,8 @@ public abstract class OnEffectsListView extends EffectsListView {
 	public List<Effect> getList(Context context) {
 		LinkedList<Effect> adapter = new LinkedList<Effect>();
 		adapter.add(new Effect(context, R.string.anim_fade, Common.Anim.FADE));
-		adapter.add(new Effect(context, R.string.anim_crt, Common.Anim.CRT));
-		adapter.add(new Effect(context, R.string.anim_crt_vertical, Common.Anim.CRT_VERTICAL));
+		// adapter.add(new Effect(context, R.string.anim_crt, Common.Anim.CRT));
+		// adapter.add(new Effect(context, R.string.anim_crt_vertical, Common.Anim.CRT_VERTICAL));
 		adapter.add(new Effect(context, R.string.anim_scale_down, Common.Anim.SCALE));
 		// adapter.add(new Effect(context, R.string.anim_tv_burn, Common.Anim.TV_BURN));
 		adapter.add(new Effect(context, R.string.anim_lgog, Common.Anim.LG_OPTIMUS_G));

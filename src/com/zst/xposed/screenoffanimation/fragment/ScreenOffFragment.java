@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -130,16 +129,11 @@ public class ScreenOffFragment extends Fragment {
 										}
 										mPref.edit().putString(Pref.Key.RANDOM_LIST,
 												str_list.toString()).commit();
+										getActivity().sendBroadcast(new Intent(Common.BROADCAST_REFRESH_SETTINGS));
 									}
 								}
 							});
 							new AlertDialog.Builder(getActivity())
-								.setOnDismissListener(new DialogInterface.OnDismissListener() {
-									@Override
-									public void onDismiss(DialogInterface arg0) {
-										getActivity().sendBroadcast(new Intent(Common.BROADCAST_REFRESH_SETTINGS));
-									}
-								})
 								.setView(vg)
 								.show();
 						}
