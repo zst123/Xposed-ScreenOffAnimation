@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources>  
 
-    <!-- App -->
+	<!-- App -->
     <string name="app_name">ScreenOffAnimation</string>
-    <string name="app_info">Modifiez l\'animation du verrouillage de l\'écran pour toutes les ROMs (zst123).\nTraduction par jose_404.</string>
+    <string name="app_info">Modifiez l\'animation du verrouillage de l\'écran pour toutes les ROMs (zst123).\nTraduction par jose_404, et JKab.</string>
+	
     <!-- Others -->
     <string name="error_animating"> Il y a une erreur avec l\'animation actuelle.\nEnregistré dans le journal de l\'installateur Xposed.</string>
+	
     <!-- Settings -->
     <string name="menu_reset_settings_title">Restaurer paramètres</string>
     <string name="menu_reset_settings_dialog">Réinitialiser tous les paramètres par défaut?</string>
@@ -17,7 +19,10 @@
     <string name="setting_speed">Vitesse</string>
     <string name="setting_preview">Aperçu</string>
     <string name="setting_preview_button">Aperçu de l\'Animation</string>
+	
     <!-- Animations -->
+	<string name="anim_random">Aléatoire</string>
+    <string name="anim_random_note">Sélectionnez les animations qui seront choisies aléatoirement</string>
     <string name="anim_fade">Fondu</string>
     <string name="anim_crt">CRT (Horizontal)</string>
     <string name="anim_crt_vertical">CRT (Vertical)</string>
@@ -25,5 +30,5 @@
     <string name="anim_tv_burn">TV Burn In</string>
     <string name="anim_lgog">LG Optimus G</string>
     <string name="anim_fadetiles">Fondu en cascade</string>
-
+    
 </resources>
