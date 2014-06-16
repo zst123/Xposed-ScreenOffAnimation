@@ -262,10 +262,15 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		case Common.Anim.FADE_TILES:
 			return new FadeTiles();
 		case Common.Anim.RANDOM:
-			if (on) {
-				return findAnimation(mOnRandomAnimList.get(new Random().nextInt(mOnRandomAnimList.size())), on);
-			} else {
-				return findAnimation(mRandomAnimList.get(new Random().nextInt(mRandomAnimList.size())), on);
+			try {
+				if (on) {
+					return findAnimation(mOnRandomAnimList.get(new Random().nextInt(mOnRandomAnimList.size())), on);
+				} else {
+					return findAnimation(mRandomAnimList.get(new Random().nextInt(mRandomAnimList.size())), on);
+				}
+			} catch (Throwable t) {
+				// RuntimeException if user selects no animation.
+				return null;
 			}
 		default:
 			return null;
