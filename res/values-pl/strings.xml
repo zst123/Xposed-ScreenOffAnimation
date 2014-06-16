@@ -15,12 +15,16 @@
     <string name="xposed_disabled_summary">Moduł nie jest uruchomiony.\nUpewnij się, że moduł jest aktywny w Xposed Installerze i że zresetowałeś urządzenie</string>
     <string name="setting_enable">Włącz</string>
     <string name="setting_anim">Animacja</string>
+    <string name="setting_anim_off">Blokowanie</string>
+    <string name="setting_anim_on">Odblokowanie</string>
     <string name="setting_anim_button">Wybierz animacje</string>
     <string name="setting_speed">Prędkość animacji</string>
     <string name="setting_preview">Podgląd</string>
     <string name="setting_preview_button">Podgląd animacji</string>
 
     <!-- Animations -->
+    <string name="anim_random">Losowo</string>
+    <string name="anim_random_note">Wybierz animcje do użycia w trybie losowym</string>
     <string name="anim_fade">Wygasanie</string>
     <string name="anim_crt">CRT (Poziomo)</string>
     <string name="anim_crt_vertical">CRT (Pionowo)</string>
