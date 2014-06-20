@@ -17,6 +17,8 @@
     <string name="setting_speed">速度</string>
     <string name="setting_preview">预览</string>
     <string name="setting_preview_button">预览动画</string>
+    <string name="anim_random">随机</string>
+    <string name="anim_random_note">选择动画来使用随机动画功能</string>
     <string name="anim_fade">淡化特效</string>
     <string name="anim_crt">CRT特效（水平位置）</string>
     <string name="anim_crt_vertical">CRT特效（垂直位置）</string>
