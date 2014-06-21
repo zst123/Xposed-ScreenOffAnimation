@@ -12,11 +12,15 @@ Győződjön meg arról, hogy ez a modul be van jelölve Xposed Installer-ben, �
 
     <string name="setting_enable">Engedélyez</string>
     <string name="setting_anim">Animáció</string>
-    <string name="setting_anim_button">Válasszon Animációt</string>
     <string name="setting_speed">Sebesség</string>
     <string name="setting_preview">Előnézet</string>
     <string name="setting_preview_button">Animáció Előnézet</string>
+    <string name="setting_anim_on">Képernyő Be</string>
+    <string name="setting_anim_off">Képernyő Ki</string> 
+    <string name="setting_anim_button">Válasszon Animációt</string>
     
+    <string name="anim_random">Véletlenszerű</string>
+    <string name="anim_random_note">Válassza ki az animációkat, amit véletlenszerűen szeretne használni</string>
     <string name="anim_fade">Halványít</string>
     <string name="anim_crt">CRT (Vízszintes)</string>
     <string name="anim_crt_vertical">CRT (Függőleges)</string>
