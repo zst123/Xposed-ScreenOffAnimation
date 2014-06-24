@@ -1,5 +1,6 @@
 package com.zst.xposed.screenoffanimation.anim;
 
+import com.zst.xposed.screenoffanimation.MainXposed;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
 
 import android.content.Context;
@@ -43,6 +44,7 @@ public abstract class ScreenOnAnim {
 	}
 	
 	public void showScreenOnView(View animating_view) {
+		MainXposed.mOnAnimationRunning = true;
 		mFrame.removeAllViews();
 		mFrame.addView(animating_view);
 		
@@ -88,6 +90,7 @@ public abstract class ScreenOnAnim {
 	public abstract void animateScreenOnView();
 	
 	public void finishScreenOnAnim() {
+		MainXposed.mOnAnimationRunning = false;
 		try {
 			mWM.removeView(mFrame);
 		} catch (Exception e) {

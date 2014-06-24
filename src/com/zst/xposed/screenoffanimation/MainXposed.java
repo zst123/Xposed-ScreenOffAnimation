@@ -28,6 +28,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	
 	public static boolean mDontAnimate;
 	public static boolean mAnimationRunning;
+	public static boolean mOnAnimationRunning;
 
 	static XModuleResources sModRes;
 	static XSharedPreferences sPref;
