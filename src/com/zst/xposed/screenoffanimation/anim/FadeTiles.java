@@ -158,7 +158,9 @@ public class FadeTiles extends AnimImplementation {
 		
 		public void startFade() {
 			for (ImageView iv : mViews) {
-				iv.startAnimation(iv.getAnimation());
+				if (iv.getAnimation() != null && !iv.getAnimation().hasStarted()) {
+					iv.startAnimation(iv.getAnimation());
+				}
 			}
 		}
 		
