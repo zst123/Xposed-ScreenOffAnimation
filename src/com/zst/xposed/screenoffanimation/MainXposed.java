@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.XModuleResources;
+import android.content.res.XResources;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook;
@@ -80,6 +81,9 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			XposedBridge.hookAllMethods(hookClass, "sendNotificationLocked", sScreenWakeHook);
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			Utils.log("Done hooks for PowerManagerService (Old Package)");
+			
+			// Disable native screen off anim.
+			XResources.setSystemWideReplacement("android", "bool", "config_animateScreenLights", true);
 		}
 	}
 	
