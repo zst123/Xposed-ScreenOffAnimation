@@ -86,7 +86,7 @@
                 android:textSize="@dimen/text_small" />
         </LinearLayout>
 
-        <SeekBar
+        <com.zst.xposed.screenoffanimation.widgets.IntervalSeekBar
             android:id="@+id/seekBar_speed"
             android:layout_width="match_parent"
             android:layout_height="0dp"

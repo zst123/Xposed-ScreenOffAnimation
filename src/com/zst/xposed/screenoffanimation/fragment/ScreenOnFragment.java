@@ -22,6 +22,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.zst.xposed.screenoffanimation.Common;
 import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.Common.Pref;
+import com.zst.xposed.screenoffanimation.widgets.IntervalSeekBar;
 import com.zst.xposed.screenoffanimation.widgets.EffectsCheckList;
 import com.zst.xposed.screenoffanimation.widgets.OnEffectsListView;
 
@@ -61,31 +62,25 @@ public class ScreenOnFragment extends ScreenOffFragment {
 		});
 		
 		mTextSpeed = (TextView) v.findViewById(R.id.tV_wake_speed_value);
-		mSeekSpeed = (SeekBar) v.findViewById(R.id.seekBar_wake_speed);
+		mSeekSpeed = (IntervalSeekBar) v.findViewById(R.id.seekBar_wake_speed);
+		mSeekSpeed.setAttr(2000, 100, 10);
 		mSeekSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			int adjusted_progress = -1;
-			
+			boolean mFromUser;
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				if (adjusted_progress != -1) {
-					mPref.edit().putInt(Pref.Key.ON_SPEED, adjusted_progress).commit();
+				if (mFromUser) {
+					mPref.edit().putInt(Pref.Key.ON_SPEED, mSeekSpeed.getRealProgress()).commit();
+					updateSettings();
 				}
-				updateSettings();
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				if (!fromUser) {
-					adjusted_progress = -1;
-					return;
-				}
-				
-				adjusted_progress = (progress * SPEED_INTERVAL) + SPEED_MIN;
-				mTextSpeed.setText(adjusted_progress + " ms");
+				mFromUser = fromUser;
+				mTextSpeed.setText(mSeekSpeed.getRealProgress() + " ms");
 			}
 		});
-		mSeekSpeed.setMax((SPEED_MAX - SPEED_MIN) / SPEED_INTERVAL);
 		
 		v.findViewById(R.id.select_wake_anim_button).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -150,7 +145,6 @@ public class ScreenOnFragment extends ScreenOffFragment {
 	public void loadPref() {
 		final boolean enabled = mPref.getBoolean(Pref.Key.ON_ENABLED, Pref.Def.ENABLED);
 		final int speed = mPref.getInt(Pref.Key.ON_SPEED, Pref.Def.SPEED);
-		final int adjusted_speed = (speed - SPEED_MIN) / SPEED_INTERVAL;
 		
 		mCurrentAnim = mPref.getInt(Pref.Key.ON_EFFECT, Pref.Def.EFFECT);
 
@@ -165,7 +159,7 @@ public class ScreenOnFragment extends ScreenOffFragment {
 		
 		mSwitchEnabled.setChecked(enabled);
 		mSettingsLayout.setVisibility(enabled ? View.VISIBLE : View.GONE);
-		mSeekSpeed.setProgress(adjusted_speed);
+		mSeekSpeed.setRealProgress(speed);
 		mTextSpeed.setText(speed + " ms");
 	}
 }
