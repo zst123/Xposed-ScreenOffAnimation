@@ -37,6 +37,7 @@ public abstract class EffectsCheckList extends ListView {
 		adapter.add(new CheckEffect(context, R.string.anim_tv_burn, Common.Anim.TV_BURN));
 		adapter.add(new CheckEffect(context, R.string.anim_lgog, Common.Anim.LG_OPTIMUS_G));
 		adapter.add(new CheckEffect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
+		adapter.add(new CheckEffect(context, R.string.anim_vertu_sig, Common.Anim.VERTU_SIG_TOUCH));
 		return adapter;
 	}
 	
@@ -49,6 +50,7 @@ public abstract class EffectsCheckList extends ListView {
 		// adapter.add(new CheckEffect(context, R.string.anim_tv_burn, Common.Anim.TV_BURN));
 		adapter.add(new CheckEffect(context, R.string.anim_lgog, Common.Anim.LG_OPTIMUS_G));
 		adapter.add(new CheckEffect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
+		adapter.add(new CheckEffect(context, R.string.anim_vertu_sig, Common.Anim.VERTU_SIG_TOUCH));
 		return adapter;
 	}
 	

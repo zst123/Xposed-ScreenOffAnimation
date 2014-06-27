@@ -38,6 +38,7 @@ public abstract class EffectsListView extends ListView {
 		adapter.add(new Effect(context, R.string.anim_tv_burn, Common.Anim.TV_BURN));
 		adapter.add(new Effect(context, R.string.anim_lgog, Common.Anim.LG_OPTIMUS_G));
 		adapter.add(new Effect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
+		adapter.add(new Effect(context, R.string.anim_vertu_sig, Common.Anim.VERTU_SIG_TOUCH));
 		adapter.add(new Effect(context, R.string.anim_random, Common.Anim.RANDOM));
 		return adapter;
 	}

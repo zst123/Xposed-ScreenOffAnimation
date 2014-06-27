@@ -26,4 +26,5 @@
     <string name="anim_tv_burn">电视断电特效</string>
     <string name="anim_lgog">LG Optimus G特效</string>
     <string name="anim_fadetiles">平铺淡化特效</string>
+    <string name="anim_vertu_sig">Vertu Sig. Touch 特效</string>
 </resources>

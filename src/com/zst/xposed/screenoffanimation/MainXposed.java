@@ -272,6 +272,8 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			return new LGOptimusG();
 		case Common.Anim.FADE_TILES:
 			return new FadeTiles();
+		case Common.Anim.VERTU_SIG_TOUCH:
+			return new VertuSigTouch();
 		case Common.Anim.RANDOM:
 			try {
 				if (on) {
