@@ -1,6 +1,7 @@
 package com.zst.xposed.screenoffanimation.anim;
 
 import com.zst.xposed.screenoffanimation.helpers.ScreenshotUtil;
+import com.zst.xposed.screenoffanimation.widgets.AnimationEndListener;
 
 import android.graphics.Shader;
 import android.content.Context;
@@ -46,15 +47,11 @@ public class TVBurnIn extends AnimImplementation {
 				view.startAnimation(anim);
 			}
 		};
-		anim.setAnimationListener(new Animation.AnimationListener() {
+		anim.setAnimationListener(new AnimationEndListener() {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				finish(ctx, holder, 100);
 			}
-			@Override
-			public void onAnimationStart(Animation a) {}
-			@Override
-			public void onAnimationRepeat(Animation a) {}
 		});
 		holder.mFrame.setBackgroundColor(Color.BLACK);
 		holder.showScreenOffView(view);

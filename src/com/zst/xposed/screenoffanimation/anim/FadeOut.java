@@ -1,5 +1,7 @@
 package com.zst.xposed.screenoffanimation.anim;
 
+import com.zst.xposed.screenoffanimation.widgets.AnimationEndListener;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -24,16 +26,12 @@ public class FadeOut extends AnimImplementation {
 				outline.startAnimation(fadeIn);
 			}
 		};
-		fadeIn.setAnimationListener(new Animation.AnimationListener() {
+		fadeIn.setAnimationListener(new AnimationEndListener() {
 			@Override
 			public void onAnimationEnd(Animation a) {
 				holder.mFrame.setBackgroundColor(Color.BLACK);
 				finish(ctx, holder, 100);
 			}
-			@Override
-			public void onAnimationStart(Animation a) {}
-			@Override
-			public void onAnimationRepeat(Animation a) {}
 		});
 		holder.showScreenOffView(outline);
 	}
@@ -52,15 +50,11 @@ public class FadeOut extends AnimImplementation {
 				outline.startAnimation(fadeIn);
 			}
 		};
-		fadeIn.setAnimationListener(new Animation.AnimationListener() {
+		fadeIn.setAnimationListener(new AnimationEndListener() {
 			@Override
 			public void onAnimationEnd(Animation a) {
 				holder.finishScreenOnAnim();
 			}
-			@Override
-			public void onAnimationStart(Animation a) {}
-			@Override
-			public void onAnimationRepeat(Animation a) {}
 		});
 		holder.showScreenOnView(outline);
 	}

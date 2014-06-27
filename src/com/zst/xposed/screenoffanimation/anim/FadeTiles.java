@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.helpers.ScreenshotUtil;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
+import com.zst.xposed.screenoffanimation.widgets.AnimationEndListener;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -127,13 +128,11 @@ public class FadeTiles extends AnimImplementation {
 					anim.setFillAfter(true);
 					anim.setStartOffset((long) (offset_multiplier * (r + c)));
 					if (r == rows - 1 && c == columns - 1) {
-						anim.setAnimationListener(new Animation.AnimationListener() {
+						anim.setAnimationListener(new AnimationEndListener() {
 							@Override
 							public void onAnimationEnd(Animation animation) {
 								onFinishAnimation();
 							}
-							@Override public void onAnimationStart(Animation a) {}
-							@Override public void onAnimationRepeat(Animation a) {}
 						});
 					}
 					final ImageView view = new ImageView(ctx);

@@ -3,6 +3,7 @@ package com.zst.xposed.screenoffanimation.anim;
 import com.zst.xposed.screenoffanimation.R;
 import com.zst.xposed.screenoffanimation.helpers.ScreenshotUtil;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
+import com.zst.xposed.screenoffanimation.widgets.AnimationEndListener;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -39,15 +40,11 @@ public class ScaleDown extends AnimImplementation {
 			}
 		};
 		
-		anim.setAnimationListener(new Animation.AnimationListener() {
+		anim.setAnimationListener(new AnimationEndListener() {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				finish(ctx, holder, 100);
 			}
-			@Override
-			public void onAnimationStart(Animation a) {}
-			@Override
-			public void onAnimationRepeat(Animation a) {}
 		});
 		holder.mFrame.setBackgroundColor(Color.BLACK);
 		holder.showScreenOffView(view);
@@ -71,15 +68,11 @@ public class ScaleDown extends AnimImplementation {
 			}
 		};
 		
-		anim.setAnimationListener(new Animation.AnimationListener() {
+		anim.setAnimationListener(new AnimationEndListener() {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				on_holder.finishScreenOnAnim();
 			}
-			@Override
-			public void onAnimationStart(Animation a) {}
-			@Override
-			public void onAnimationRepeat(Animation a) {}
 		});
 		
 		on_holder.showScreenOnView(view);
