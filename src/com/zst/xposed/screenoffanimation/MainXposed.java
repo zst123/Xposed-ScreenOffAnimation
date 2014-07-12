@@ -1,8 +1,6 @@
 package com.zst.xposed.screenoffanimation;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.zst.xposed.screenoffanimation.Common.Pref;
 import com.zst.xposed.screenoffanimation.anim.*;
@@ -16,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.XModuleResources;
 import android.content.res.XResources;
-import android.text.TextUtils;
 import android.view.WindowManager;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -277,9 +274,9 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		case Common.Anim.RANDOM:
 			try {
 				if (on) {
-					return findAnimation(mOnRandomAnimList.get(new Random().nextInt(mOnRandomAnimList.size())), on);
+					return findAnimation(Utils.getRandomIntFromList(mOnRandomAnimList), on);
 				} else {
-					return findAnimation(mRandomAnimList.get(new Random().nextInt(mRandomAnimList.size())), on);
+					return findAnimation(Utils.getRandomIntFromList(mRandomAnimList), on);
 				}
 			} catch (Throwable t) {
 				// RuntimeException if user selects no animation.
@@ -296,26 +293,14 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 		mEnabled = sPref.getBoolean(Common.Pref.Key.ENABLED, Common.Pref.Def.ENABLED);
 		mAnimationIndex = sPref.getInt(Common.Pref.Key.EFFECT, Common.Pref.Def.EFFECT);
 		mAnimationSpeed = sPref.getInt(Common.Pref.Key.SPEED, Common.Pref.Def.SPEED);
-		mRandomAnimList = new ArrayList<Integer>();
-		String randomAnimString =  sPref.getString(Pref.Key.RANDOM_LIST, Pref.Def.RANDOM_LIST);
-		if (!TextUtils.isEmpty(randomAnimString)) {
-			for (String item : randomAnimString.split(",")) {
-				if (!TextUtils.isEmpty(item))
-					mRandomAnimList.add(Integer.parseInt(item));
-			}
-		} //TODO: move into Utils class
+		mRandomAnimList = Utils.integerSplitByCommaToArrayList(
+				sPref.getString(Pref.Key.RANDOM_LIST, Pref.Def.RANDOM_LIST));
 		
 		mOnEnabled = sPref.getBoolean(Common.Pref.Key.ON_ENABLED, Common.Pref.Def.ENABLED);
 		mOnAnimationIndex = sPref.getInt(Common.Pref.Key.ON_EFFECT, Common.Pref.Def.EFFECT);
 		mOnAnimationSpeed = sPref.getInt(Common.Pref.Key.ON_SPEED, Common.Pref.Def.SPEED);
-		mOnRandomAnimList = new ArrayList<Integer>();
-		String onRandomAnimString =  sPref.getString(Pref.Key.ON_RANDOM_LIST, Pref.Def.RANDOM_LIST);
-		if (!TextUtils.isEmpty(onRandomAnimString)) {
-			for (String item : onRandomAnimString.split(",")) {
-				if (!TextUtils.isEmpty(item))
-					mOnRandomAnimList.add(Integer.parseInt(item));
-			}
-		}
+		mOnRandomAnimList = Utils.integerSplitByCommaToArrayList(
+				sPref.getString(Pref.Key.ON_RANDOM_LIST, Pref.Def.RANDOM_LIST));
 		
 		mAnimationRunning = false;
 	}

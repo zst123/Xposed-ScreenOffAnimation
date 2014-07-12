@@ -1,15 +1,18 @@
 package com.zst.xposed.screenoffanimation.helpers;
 
 import java.lang.reflect.InvocationTargetException;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import com.zst.xposed.screenoffanimation.Common;
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -58,6 +61,7 @@ public class Utils {
 	}
 	
 	/** Set background drawable based on the API */
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static void setBackgroundDrawable(View view, Drawable drawable) {
 		if (Build.VERSION.SDK_INT >= 16) {
@@ -78,6 +82,20 @@ public class Utils {
 		// Creating XML from a parser is hidden in APIs.
 	}
 	
+	public static ArrayList<Integer> integerSplitByCommaToArrayList(String string) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		if (!TextUtils.isEmpty(string)) {
+			for (String item : string.split(",")) {
+				if (!TextUtils.isEmpty(item))
+					list.add(Integer.parseInt(item));
+			}
+		}
+		return list;
+	}
+	
+	public static int getRandomIntFromList(List<Integer> list) {
+		return list.get(new Random().nextInt(list.size()));
+	}
 	/**
 	 * Helper Method for <b>XposedBridge.invokeOriginalMethod(param.method, param.thisObject, param.args)</b>
 	 * @param param - MethodHookParam
