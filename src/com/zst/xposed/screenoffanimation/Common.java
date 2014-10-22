@@ -21,6 +21,7 @@ public class Common {
 		public final static int LG_OPTIMUS_G = 6;
 		public final static int FADE_TILES = 7;
 		public final static int VERTU_SIG_TOUCH = 8;
+		public final static int LOLLIPOP_FADE_OUT = 9;
 		public final static int RANDOM = 99;
 	}
 	
