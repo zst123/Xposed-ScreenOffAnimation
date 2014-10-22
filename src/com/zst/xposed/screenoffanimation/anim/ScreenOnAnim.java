@@ -2,7 +2,7 @@ package com.zst.xposed.screenoffanimation.anim;
 
 import com.zst.xposed.screenoffanimation.MainXposed;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
-import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -43,13 +43,8 @@ public abstract class ScreenOnAnim {
 		mFrame.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 	}
 	
-	@SuppressLint("NewApi")
 	public void showScreenOnView(View animating_view) {
 		MainXposed.mOnAnimationRunning = true;
-		if (MainXposed.mScreenOnBlocker != null) {
-			MainXposed.mScreenOnBlocker.destroy();//.hide();
-		}
-		
 		mFrame.removeAllViews();
 		mFrame.addView(animating_view);
 		
@@ -78,10 +73,6 @@ public abstract class ScreenOnAnim {
 			new Handler(mContext.getMainLooper()).postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if (MainXposed.mScreenOnBlocker != null) {
-						//MainXposed.mScreenOnBlocker.hide();
-						MainXposed.mScreenOnBlocker.destroy();
-					}
 					try {
 						animateScreenOnView();
 					} catch (Exception e) {

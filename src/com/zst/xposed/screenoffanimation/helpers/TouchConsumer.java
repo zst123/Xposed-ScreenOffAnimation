@@ -64,7 +64,6 @@ public class TouchConsumer {
 	}
 	
 	public void start() {
-		mHandler.removeCallbacks(sStopRunnable);
 		try {
 			mWM.addView(mView, LAYOUT_PARAM);
 		} catch (IllegalArgumentException e) {
