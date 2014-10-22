@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.zst.xposed.screenoffanimation.Common.Pref;
 import com.zst.xposed.screenoffanimation.anim.*;
+import com.zst.xposed.screenoffanimation.helpers.ScreenOnBlocker;
 import com.zst.xposed.screenoffanimation.helpers.Utils;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -27,6 +28,7 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	public static boolean mDontAnimate;
 	public static boolean mAnimationRunning;
 	public static boolean mOnAnimationRunning;
+	public static ScreenOnBlocker mScreenOnBlocker;
 
 	static XModuleResources sModRes;
 	static XSharedPreferences sPref;
@@ -154,8 +156,16 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			if (!mOnEnabled) return;
 			
 			if (param.method.getName().equals("sendNotificationLocked")) {
-				if ((Boolean) param.args[0] == false)
+				// Using old PowerManagerService
+				if ((Boolean) param.args[0] == false) {
+					// This means screen is turning off.
+					// Do the Screen On Flicker workaround here
+					if (mScreenOnBlocker == null) {
+						mScreenOnBlocker = new ScreenOnBlocker(mContext, mWm);
+					}
+					mScreenOnBlocker.start();
 					return;
+				}
 			} else if ((Boolean) param.getResult() == false) {
 				// not updating state
 				return;
