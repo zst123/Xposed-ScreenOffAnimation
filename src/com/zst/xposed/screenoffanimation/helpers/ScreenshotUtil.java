@@ -83,6 +83,11 @@ public class ScreenshotUtil {
 			c.setBitmap(null);
 			screenBitmap = ss;
 		}
+		
+		// Optimizations
+		screenBitmap.setHasAlpha(false);
+		screenBitmap.prepareToDraw();
+		
 		return screenBitmap;
 	}
 	
