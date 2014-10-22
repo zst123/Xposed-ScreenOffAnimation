@@ -32,5 +32,7 @@
     <string name="anim_tv_burn">TV Burn In</string>
     <string name="anim_lgog">LG Optimus G</string>
     <string name="anim_fadetiles">Fondu en tuiles</string>
-    <string name="anim_vertu_sig">Vertu Sig. Touch</string>    
+    <string name="anim_vertu_sig">Vertu Sig. Touch</string>
+    <string name="anim_lollipop_fade_out">Fondu Android Lollipop</string>
+    
 </resources>
