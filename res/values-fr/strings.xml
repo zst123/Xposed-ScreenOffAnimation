@@ -3,22 +3,24 @@
 
 	<!-- App -->
     <string name="app_name">ScreenOffAnimation</string>
-    <string name="app_info">Modifiez l\'animation du verrouillage de l\'écran pour toutes les ROMs (zst123).\nTraduction par jose_404, et JKab.</string>
+    <string name="app_info">Modifiez l\'animation du verrouillage de l\'écran pour toutes les ROMs (zst123).\nTraduction par jose_404 et JKab.</string>
 	
     <!-- Others -->
     <string name="error_animating"> Il y a une erreur avec l\'animation actuelle.\nEnregistré dans le journal de l\'installateur Xposed.</string>
 	
     <!-- Settings -->
-    <string name="menu_reset_settings_title">Restaurer paramètres</string>
-    <string name="menu_reset_settings_dialog">Réinitialiser tous les paramètres par défaut?</string>
-    <string name="xposed_disabled_title">Module Désactivé</string>
-    <string name="xposed_disabled_summary">Ce module n\'a pas l\'air de fonctionner.\nAssurez vous que le module est activé dans l\'installateur Xposed et que vous avez bien redémarrer l\'appareil</string>
-    <string name="setting_enable">Activé</string>
+    <string name="menu_reset_settings_title">Réinitialiser</string>
+    <string name="menu_reset_settings_dialog">Réinitialiser tous les paramètres par défaut ?</string>
+    <string name="xposed_disabled_title">Module inactif</string>
+    <string name="xposed_disabled_summary">Ce module ne semble pas fonctionner.\nAssurez-vous d\'avoir activé le module dans l\'installateur Xposed et redémarré l\'appareil</string>
+    <string name="setting_enable">Activer</string>
     <string name="setting_anim">Animation</string>
-    <string name="setting_anim_button">Sélectionner une Animation</string>
+    <string name="setting_anim_off">Écran éteint</string>
+    <string name="setting_anim_on">Écran allumé</string>    
+    <string name="setting_anim_button">Sélectionner une animation</string>
     <string name="setting_speed">Vitesse</string>
     <string name="setting_preview">Aperçu</string>
-    <string name="setting_preview_button">Aperçu de l\'Animation</string>
+    <string name="setting_preview_button">Aperçu de l\'animation</string>
 	
     <!-- Animations -->
 	<string name="anim_random">Aléatoire</string>
@@ -29,6 +31,6 @@
     <string name="anim_scale_down">Réduire</string>
     <string name="anim_tv_burn">TV Burn In</string>
     <string name="anim_lgog">LG Optimus G</string>
-    <string name="anim_fadetiles">Fondu en cascade</string>
-    
+    <string name="anim_fadetiles">Fondu en tuiles</string>
+    <string name="anim_vertu_sig">Vertu Sig. Touch</string>    
 </resources>
