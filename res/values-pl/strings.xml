@@ -32,5 +32,7 @@
     <string name="anim_tv_burn">Włączanie TV</string>
     <string name="anim_lgog">LG Optimus G</string>
     <string name="anim_fadetiles">Znikające kafelki</string>
+    <string name="anim_vertu_sig">Pionowe dotknięcie</string>
+    <string name="anim_lollipop_fade_out">Wygasanie z Androida L</string>
     
 </resources>
