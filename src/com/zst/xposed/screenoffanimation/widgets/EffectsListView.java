@@ -1,11 +1,5 @@
 package com.zst.xposed.screenoffanimation.widgets;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import com.zst.xposed.screenoffanimation.Common;
-import com.zst.xposed.screenoffanimation.R;
-
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
@@ -17,6 +11,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.zst.xposed.screenoffanimation.Common;
+import com.zst.xposed.screenoffanimation.R;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class EffectsListView extends ListView {
 	final int mCurrentAnimId;
@@ -40,6 +40,11 @@ public abstract class EffectsListView extends ListView {
 		adapter.add(new Effect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
 		adapter.add(new Effect(context, R.string.anim_vertu_sig, Common.Anim.VERTU_SIG_TOUCH));
 		adapter.add(new Effect(context, R.string.anim_lollipop_fade_out, Common.Anim.LOLLIPOP_FADE_OUT));
+		adapter.add(new Effect(context, R.string.anim_scale_down_bottom, Common.Anim.SCALE_BOTTOM));
+		adapter.add(new Effect(context, R.string.anim_bounce, Common.Anim.BOUNCE));
+		adapter.add(new Effect(context, R.string.anim_3dflip, Common.Anim.FLIP));
+		adapter.add(new Effect(context, R.string.anim_wp8, Common.Anim.WP8));
+		adapter.add(new Effect(context, R.string.anim_flip_tiles, Common.Anim.FLIP_TILES));
 		adapter.add(new Effect(context, R.string.anim_random, Common.Anim.RANDOM));
 		return adapter;
 	}
