@@ -34,5 +34,10 @@
     <string name="anim_fadetiles">Fade Tiles</string>
     <string name="anim_vertu_sig">Vertu Sig. Touch</string>
     <string name="anim_lollipop_fade_out">Android Lollipop Fade</string>
-    
+    <string name="anim_scale_down_bottom">Scale Down Bottom</string>
+    <string name="anim_bounce">Bounce</string>
+    <string name="anim_3dflip">3D Flip</string>
+    <string name="anim_wp8">Windows Phone 8</string>
+    <string name="anim_flip_tiles">Flip Tiles</string>
+
 </resources>

@@ -22,6 +22,11 @@ public class Common {
 		public final static int FADE_TILES = 7;
 		public final static int VERTU_SIG_TOUCH = 8;
 		public final static int LOLLIPOP_FADE_OUT = 9;
+		public final static int SCALE_BOTTOM = 10;
+		public final static int BOUNCE = 11;
+		public final static int FLIP = 12;
+		public final static int WP8 = 13;
+		public final static int FLIP_TILES = 14;
 		public final static int RANDOM = 99;
 	}
 	

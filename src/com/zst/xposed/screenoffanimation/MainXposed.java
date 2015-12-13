@@ -1,13 +1,5 @@
 package com.zst.xposed.screenoffanimation;
 
-import java.util.List;
-
-import com.zst.xposed.screenoffanimation.Common.Pref;
-import com.zst.xposed.screenoffanimation.anim.*;
-import com.zst.xposed.screenoffanimation.helpers.Utils;
-
-import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +7,29 @@ import android.content.IntentFilter;
 import android.content.res.XModuleResources;
 import android.content.res.XResources;
 import android.view.WindowManager;
+
+import com.zst.xposed.screenoffanimation.Common.Pref;
+import com.zst.xposed.screenoffanimation.anim.AnimImplementation;
+import com.zst.xposed.screenoffanimation.anim.Bounce;
+import com.zst.xposed.screenoffanimation.anim.CRT;
+import com.zst.xposed.screenoffanimation.anim.CRTVertical;
+import com.zst.xposed.screenoffanimation.anim.FadeOut;
+import com.zst.xposed.screenoffanimation.anim.FadeTiles;
+import com.zst.xposed.screenoffanimation.anim.Flip;
+import com.zst.xposed.screenoffanimation.anim.FlipTiles;
+import com.zst.xposed.screenoffanimation.anim.LGOptimusG;
+import com.zst.xposed.screenoffanimation.anim.LollipopFadeOut;
+import com.zst.xposed.screenoffanimation.anim.ScaleDown;
+import com.zst.xposed.screenoffanimation.anim.ScaleDownBottom;
+import com.zst.xposed.screenoffanimation.anim.TVBurnIn;
+import com.zst.xposed.screenoffanimation.anim.VertuSigTouch;
+import com.zst.xposed.screenoffanimation.anim.WP8;
+import com.zst.xposed.screenoffanimation.helpers.Utils;
+
+import java.util.List;
+
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
@@ -69,19 +84,58 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
 			hookDisableNativeScreenOffAnim(lpparam);
 			Utils.log("Done hooks for PowerManagerService (New Package)");
+
+			XResources.setSystemWideReplacement("android", "bool", "config_animateScreenLights", true);
 		} catch (Throwable e) {
 			// Android 4.0 to Android 4.2.1 (built before Aug 15, 2012)
 			// https://github.com/android/platform_frameworks_base/commit/9630704ed3b265f008a8f64ec60a33cf9dcd3345
-			final Class<?> hookClass = XposedHelpers.findClass(
-					"com.android.server.PowerManagerService", lpparam.classLoader);
-			XposedBridge.hookAllMethods(hookClass, "setPowerState", sScreenOffHook);
-			XposedBridge.hookAllMethods(hookClass, "sendNotificationLocked", sScreenWakeHook);
-			XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
-			Utils.log("Done hooks for PowerManagerService (Old Package)");
-			
-			// Disable native screen off anim.
-			XResources.setSystemWideReplacement("android", "bool", "config_animateScreenLights", true);
+			try {
+				final Class<?> hookClass = XposedHelpers.findClass(
+						"com.android.server.PowerManagerService", lpparam.classLoader);
+				XposedBridge.hookAllMethods(hookClass, "setPowerState", sScreenOffHook);
+				XposedBridge.hookAllMethods(hookClass, "sendNotificationLocked", sScreenWakeHook);
+				XposedBridge.hookAllMethods(hookClass, "init", sInitHook);
+				Utils.log("Done hooks for PowerManagerService (Old Package)");
+
+				// Disable native screen off anim.
+				XResources.setSystemWideReplacement("android", "bool", "config_animateScreenLights", true);
+			} catch (Throwable e1) {}
 		}
+
+		try{
+			// Disable android 5.0+ ColorFade  // by NUI
+			XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.android.server.display.DisplayPowerState", lpparam.classLoader),
+					"prepareColorFade", Context.class, int.class,
+					XC_MethodReplacement.returnConstant(false));
+			XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.android.server.display.ColorFade", lpparam.classLoader),
+					"draw", float.class,
+					XC_MethodReplacement.returnConstant(true));
+			XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.android.server.display.ColorFade", lpparam.classLoader),
+					"drawFaded", float.class, float.class, float.class, float.class,
+					XC_MethodReplacement.returnConstant(null));
+			XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.android.server.display.DisplayPowerState", lpparam.classLoader),
+					"scheduleColorFadeDraw",
+					XC_MethodReplacement.returnConstant(null));
+			XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.android.server.display.DisplayPowerController", lpparam.classLoader),
+					"animateScreenStateChange", int.class, boolean.class,
+					new XC_MethodReplacement() {
+						@Override
+						protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+							int target = (Integer) param.args[0];
+							if (target == 2) {
+							} else if (target == 3) {
+							} else if (target == 4) {
+							} else {
+								param.args[1] = false;
+							}
+							return Utils.callOriginal(param);
+						}
+					}
+			);
+		} catch (Throwable e2) {
+			Utils.log("Attempt to remove native screen off animation failed - " + e2.toString());
+		}
+
 	}
 	
 	private final XC_MethodHook sInitHook = new XC_MethodHook() {
@@ -195,12 +249,23 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 	
 	private void hookDisableNativeScreenOffAnim(LoadPackageParam lpp) {
 		try {
+			Class.forName("com.android.server.power.ElectronBeam", false, lpp.classLoader);
 			final Class<?> cls = XposedHelpers.findClass("com.android.server.power.ElectronBeam",
 					lpp.classLoader);
 			XposedHelpers.findAndHookMethod(cls, "prepare", int.class,
 					XC_MethodReplacement.returnConstant(false));
-		} catch (Exception e) {
+		} catch (ClassNotFoundException e) {
 			Utils.log("Attempt to remove native screen off animation failed - " + e.toString());
+			try {
+				Class.forName("com.android.server.display.ColorFade", false, lpp.classLoader);
+				final Class<?> cls = XposedHelpers.findClass("com.android.server.display.ColorFade",
+						lpp.classLoader);
+				XposedHelpers.findAndHookMethod(cls, "prepare", int.class,
+						XC_MethodReplacement.returnConstant(false));
+			} catch (ClassNotFoundException e1) {
+				Utils.log("Attempt to remove native screen off animation failed - " + e1.toString());
+				// MethodNotFoundException
+			}
 			// MethodNotFoundException
 		}
 	}
@@ -273,6 +338,16 @@ public class MainXposed implements IXposedHookZygoteInit, IXposedHookLoadPackage
 			return new VertuSigTouch();
 		case Common.Anim.LOLLIPOP_FADE_OUT:
 			return new LollipopFadeOut();
+		case Common.Anim.SCALE_BOTTOM:
+			return new ScaleDownBottom();
+		case Common.Anim.BOUNCE:
+			return new Bounce();
+		case Common.Anim.FLIP:
+			return new Flip();
+		case Common.Anim.WP8:
+			return new WP8();
+		case Common.Anim.FLIP_TILES:
+			return new FlipTiles();
 		case Common.Anim.RANDOM:
 			try {
 				if (on) {
