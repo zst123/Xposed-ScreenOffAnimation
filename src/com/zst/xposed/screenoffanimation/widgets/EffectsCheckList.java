@@ -39,6 +39,11 @@ public abstract class EffectsCheckList extends ListView {
 		adapter.add(new CheckEffect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
 		adapter.add(new CheckEffect(context, R.string.anim_vertu_sig, Common.Anim.VERTU_SIG_TOUCH));
 		adapter.add(new CheckEffect(context, R.string.anim_lollipop_fade_out, Common.Anim.LOLLIPOP_FADE_OUT));
+		adapter.add(new CheckEffect(context, R.string.anim_scale_down_bottom, Common.Anim.SCALE_BOTTOM));
+		adapter.add(new CheckEffect(context, R.string.anim_bounce, Common.Anim.BOUNCE));
+		adapter.add(new CheckEffect(context, R.string.anim_3dflip, Common.Anim.FLIP));
+		adapter.add(new CheckEffect(context, R.string.anim_wp8, Common.Anim.WP8));
+		adapter.add(new CheckEffect(context, R.string.anim_flip_tiles, Common.Anim.FLIP_TILES));
 		return adapter;
 	}
 	
@@ -53,6 +58,11 @@ public abstract class EffectsCheckList extends ListView {
 		adapter.add(new CheckEffect(context, R.string.anim_fadetiles, Common.Anim.FADE_TILES));
 		adapter.add(new CheckEffect(context, R.string.anim_vertu_sig, Common.Anim.VERTU_SIG_TOUCH));
 		// adapter.add(new CheckEffect(context, R.string.anim_lollipop_fade_out, Common.Anim.LOLLIPOP_FADE_OUT));
+		// adapter.add(new CheckEffect(context, R.string.anim_scale_down_bottom, Common.Anim.SCALE_BOTTOM));
+		// adapter.add(new CheckEffect(context, R.string.anim_bounce, Common.Anim.BOUNCE));
+		// adapter.add(new CheckEffect(context, R.string.anim_3dflip, Common.Anim.FLIP));
+		// adapter.add(new CheckEffect(context, R.string.anim_wp8, Common.Anim.WP8));
+		// adapter.add(new CheckEffect(context, R.string.anim_flip_tiles, Common.Anim.FLIP_TILES));
 		return adapter;
 	}
 	
